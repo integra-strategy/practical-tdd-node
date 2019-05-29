@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  username: postgres
+  password:
+  pool: 5
+
+development:
+  <<: *default
+  database: fetch-api_development
+
+test:
+  <<: *default
+  database: fetch-api_test
