@@ -15,7 +15,7 @@ class Mutations::SignIn < Mutations::BaseMutation
         GraphQL::ExecutionError.new('Incorrect Email/Password')
       end
     else
-      GraphQL::ExecutionError.new('user not registered on this application')
+      GraphQL::ExecutionError.new('User not registered on this application')
     end
   end
 end

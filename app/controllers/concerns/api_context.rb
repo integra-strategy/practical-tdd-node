@@ -14,7 +14,7 @@ module APIContext
       }
     end
 
-    def authenticated?(operation_name)
+    def authenticate(operation_name)
       return true if operation_name == "SignIn"
       return false unless request.headers['Authorization'].present?
       auth_header = request.headers['Authorization']

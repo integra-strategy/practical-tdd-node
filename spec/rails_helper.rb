@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'support/graphql_helpers'
 require 'support/mutations'
+require 'support/queries'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -63,4 +64,5 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Fetch::GraphQlHelpers
   config.include Fetch::Mutations
+  config.include Fetch::Queries
 end

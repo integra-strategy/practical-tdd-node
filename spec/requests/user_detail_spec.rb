@@ -12,14 +12,4 @@ RSpec.describe "User detail", type: :request do
     expect(result.errors).to be_nil
     expect(result.data.user_detail.first_name).to eq(user.first_name)
   end
-
-  def user_detail_query
-    <<~GQL
-      query UserDetail {
-        userDetail {
-          firstName
-        }
-      }
-    GQL
-  end
 end

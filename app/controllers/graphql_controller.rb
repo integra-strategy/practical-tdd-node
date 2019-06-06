@@ -4,7 +4,7 @@ class GraphqlController < ApplicationController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    return render_unauthorized unless authenticated?(operation_name)
+    return render_unauthorized unless authenticate(operation_name)
     context = build_api_context
     result = FetchApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
