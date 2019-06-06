@@ -3,7 +3,6 @@ module APIContext
 
   included do
     protect_from_forgery with: :null_session
-    before_action :authenticate_user_by_token!
   end
 
   protected
@@ -15,16 +14,14 @@ module APIContext
       }
     end
 
-    def authenticate_user_by_token!
-      if (auth_header = request.headers['Authorization']).present?
-        if m = auth_header.strip.match(/^Bearer\s+(.*?)$/)
-          unless @user = User.find_for_token_authentication(auth_token: m[1])
-            render_unauthorized
-          end
-        else
-          render_unauthorized
-        end
-      end
+    def authenticate(operation_name)
+      return true if operation_name == "SignIn"
+      return false unless request.headers['Authorization'].present?
+      auth_header = request.headers['Authorization']
+      token = auth_header.strip.match(/^Bearer\s+(.*?)$/)
+      return false unless auth_header.present? && token.present?
+      @user = User.find_for_token_authentication(auth_token: token[1])
+      @user.present?
     end
 
     def current_user
