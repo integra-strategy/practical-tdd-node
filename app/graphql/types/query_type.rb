@@ -4,13 +4,13 @@ module Types
     # They will be entry points for queries on your schema.
 
     field :me, Types::UserType, null: true
-    field :member_detail, Types::MemberDetail, null: true
+    field :user_detail, Types::UserDetail, null: true
 
     def me
       context.current_user
     end
 
-    def member_detail
+    def user_detail
       { first_name: 'John' }
     end
   end

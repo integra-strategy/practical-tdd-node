@@ -20,7 +20,7 @@ module APIContext
       auth_header = request.headers['Authorization']
       token = auth_header.strip.match(/^Bearer\s+(.*?)$/)
       return false unless auth_header.present? && token.present?
-      @user = Member.find_for_token_authentication(auth_token: token[1])
+      @user = User.find_for_token_authentication(auth_token: token[1])
       @user.present?
     end
 
