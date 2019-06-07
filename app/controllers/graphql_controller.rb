@@ -3,7 +3,10 @@ class GraphqlController < ApplicationController
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
-    operation_name = params[:operationName]
+    operation_name = get_operation_name(query)
+    unless operation_name.present?
+      return render_error("Please provide an operation name for the following query: #{query}")
+    end
     return render_unauthorized unless authenticate(operation_name)
     context = build_api_context
     result = FetchApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
@@ -38,5 +41,13 @@ class GraphqlController < ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+  end
+
+  def get_operation_name(query)
+    GraphQL.parse(query).definitions.first.name
+  end
+
+  def render_error(message)
+    render json: { errors: [message] }, status: 422
   end
 end
