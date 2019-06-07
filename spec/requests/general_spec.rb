@@ -15,9 +15,9 @@ RSpec.describe "General API functionality", type: :request do
       }
     QUERY
 
-    result = graphql(query: query)
+    result = graphql(query: query, throw_errors: false)
 
     expect(response.status).to eq(422)
-    expect(result.errors).to include("Please provide an operation name for the following query: #{query}")
+    expect(result.errors.first.message).to eq("Please provide an operation name for the following query: #{query}")
   end
 end

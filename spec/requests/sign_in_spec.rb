@@ -8,7 +8,6 @@ RSpec.describe "Sign in", type: :request do
 
     result = graphql(query: sign_in_mutation(email: email, password: password))
 
-    expect(result.errors).to be_nil
     expect(result.data.sign_in.authentication_token).to be_truthy
   end
 end

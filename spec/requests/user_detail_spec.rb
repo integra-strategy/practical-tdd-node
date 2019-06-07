@@ -9,7 +9,6 @@ RSpec.describe "User detail", type: :request do
 
     result = graphql(query: user_detail_query, authentication_token: authentication_token)
 
-    expect(result.errors).to be_nil
     expect(result.data.user_detail.first_name).to eq(user.first_name)
   end
 end

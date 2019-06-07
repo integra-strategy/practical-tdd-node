@@ -49,6 +49,7 @@ group :development, :test do
   gem 'pry-rails'
   # Pretty print Ruby objects
   gem 'awesome_print'
+  gem "pry-byebug", "~> 3.7"
 end
 
 group :development do
