@@ -1,7 +1,9 @@
 module Fetch
   module GraphQlHelpers
-    def graphql(query:, authentication_token: nil, throw_errors: true)
-      post '/graphql', params: { query: query }, headers: { "Authorization": "Bearer #{authentication_token}", "Accept": "application/json" }
+    def graphql(query:, variables: { "table": {} }, authentication_token: nil, throw_errors: true)
+      formatted_variables = variables.as_json["table"].deep_transform_keys { |k| k.camelcase(:lower) }
+      headers = { "Authorization": "Bearer #{authentication_token}", "Accept": "application/json" }
+      post '/graphql', params: { query: query, variables: formatted_variables }, headers: headers
       parsed_body = ::Fetch::GraphQlResponse.parse(response.body)
       if response.status == 401
         throw UnauthorizedResponseError.new('Recevied 401 unauthorized from server')

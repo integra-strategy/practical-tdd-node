@@ -15,7 +15,7 @@ module APIContext
     end
 
     def authenticate(operation_name)
-      return true if operation_name == "SignIn"
+      return true if ["SignIn", "SignUp"].include?(operation_name)
       return false unless request.headers['Authorization'].present?
       auth_header = request.headers['Authorization']
       token = auth_header.strip.match(/^Bearer\s+(.*?)$/)
