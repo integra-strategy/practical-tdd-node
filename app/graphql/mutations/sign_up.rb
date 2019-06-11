@@ -1,10 +1,11 @@
 class Mutations::SignUp < Mutations::BaseMutation
   argument :email, String, required: true
   argument :password, String, required: true
-  argument :first_name, String, required: true
-  argument :last_name, String, required: true
+  argument :first_name, String, required: false
+  argument :last_name, String, required: false
   argument :authorized_users, [String], required: false
   argument :phone_number, String, required: false
+  argument :accepts_sms, Boolean, required: false
   argument :profile_picture, String, required: false
   argument :address, String, required: false
   argument :address2, String, required: false
@@ -24,9 +25,7 @@ class Mutations::SignUp < Mutations::BaseMutation
         message: message,
       }
     end
-    {
-      user: user,
-      errors: errors
-    }
+    return { user: {}, errors: errors } unless errors.empty?
+    { user: user, errors: [] }
   end
 end
