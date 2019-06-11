@@ -47,7 +47,7 @@ class GraphqlController < ApplicationController
     GraphQL.parse(query).definitions.first.name
   end
 
-  def render_error(message)
-    render json: { errors: [message] }, status: 422
+  def render_error(error)
+    render json: { errors: [{ message: error }] }, status: 422
   end
 end

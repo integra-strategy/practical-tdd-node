@@ -1,9 +1,9 @@
 module Fetch
   module Mutations
-    def sign_in_mutation(email:, password:)
+    def sign_in_mutation
       <<~GQL
-        mutation SignIn {
-          signIn(email: "#{email}", password: #{password}) {
+        mutation SignIn($email: String!, $password: String!) {
+          signIn(email: $email, password: $password) {
             authenticationToken
           }
         }
