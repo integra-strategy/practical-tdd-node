@@ -4,6 +4,7 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :first_name, String, required: true
   argument :last_name, String, required: true
   argument :authorized_users, [String], required: false
+  argument :phone_number, String, required: false
   argument :profile_picture, String, required: false
   argument :address, String, required: false
   argument :address2, String, required: false
@@ -11,9 +12,21 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :state, String, required: false
   argument :zip, String, required: false
 
-  type Types::UserType
+  field :user, Types::UserType, null: true
+
+  field :errors, [Types::UserError], null: false
 
   def resolve(attrs)
-    User.create!(attrs)
+    user = User.create(attrs)
+    errors = user.errors.map do |attribute, message|
+      {
+        path: attribute.to_s.camelize(:lower),
+        message: message,
+      }
+    end
+    {
+      user: user,
+      errors: errors
+    }
   end
 end
