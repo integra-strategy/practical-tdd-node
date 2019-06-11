@@ -1,5 +1,7 @@
 class Mutations::SignIn < Mutations::BaseMutation
 
+  description "Signs a user in"
+
   argument :email, String, required: true
   argument :password, String, required: true
 
