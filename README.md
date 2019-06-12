@@ -18,8 +18,8 @@ with the following variables (note that we're using a seed account for a member)
 
 ```javascript
 {
-  "email": "member@example.com",
-  "password": "member"
+  "email": "employee@example.com",
+  "password": "password"
 }
 ```
 
