@@ -10,11 +10,6 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :accepts_sms, Boolean, "whether or not the user has agreed to receive SMS", required: false
   argument :profile_picture, String, "a URL of the profile picture for the user", required: false
-  argument :address, String, required: false
-  argument :address2, String, required: false
-  argument :city, String, required: false
-  argument :state, String, required: false
-  argument :zip, String, required: false
 
   field :user, Types::UserType, null: true
 
