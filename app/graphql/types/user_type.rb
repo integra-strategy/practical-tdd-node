@@ -1,5 +1,9 @@
 class Types::UserType < Types::BaseObject
+
   description 'User type for members and employees'
+
+  STEP_DESCRIPTION = "The step of the sign up process that the user has completed. This is used to track where the user should be taken back to if they come back to the app."
+  COMPLETED_DESCRIPTION = "Whether or not the user has completed the sign up process."
 
   field :id, ID, null: false
   field :email, String, null: true
@@ -14,4 +18,6 @@ class Types::UserType < Types::BaseObject
   field :city, String, null: true
   field :state, String, null: true
   field :zip, String, null: true
+  field :step, Int, STEP_DESCRIPTION, null: true
+  field :completed, Boolean, COMPLETED_DESCRIPTION, null: true
 end

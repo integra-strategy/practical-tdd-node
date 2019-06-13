@@ -6,6 +6,9 @@ module Types
     field :me, Types::UserType, null: true
     field :user_detail, Types::UserType, null: true
 
+    # Seems like this regression worked it's way back into graphql-ruby: https://github.com/rmosolgo/graphql-ruby/issues/788#issuecomment-308996229
+    field :testInt, GraphQL::Types::Int, null: true
+
     def me
       context.current_user
     end
