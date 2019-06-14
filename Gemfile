@@ -84,3 +84,5 @@ gem 'cancancan'
 gem 'graphql'
 gem 'graphiql-rails', group: :development
 gem 'devise-token_authenticatable'
+
+gem "rack-cors", "~> 1.0"
