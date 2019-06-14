@@ -5,6 +5,7 @@ RSpec.describe "Sign up", type: :request do
     variables = OpenStruct.new(
       email: 'someemail@example.com',
       password: 'password',
+      password_confirmation: 'password',
       phone_number: '(123) 456-7890',
       accepts_sms: true
     )
@@ -21,6 +22,7 @@ RSpec.describe "Sign up", type: :request do
     variables = OpenStruct.new(
       email: 'someemail@example.com',
       password: 'password',
+      password_confirmation: 'a different password',
       phone_number: 'not a phone number'
       )
     create(:user, email: variables.email)
@@ -30,12 +32,13 @@ RSpec.describe "Sign up", type: :request do
     errors = result.data.sign_up.errors
     expect(errors.first).to have_attributes(path: 'email', message: 'An account already exists for this email')
     expect(errors.second).to have_attributes(path: 'phoneNumber', message: 'Phone number must be 10 digits')
+    expect(errors.third).to have_attributes(path: 'password', message: "Passwords don't match")
   end
 
   def sign_up_mutation
     <<~GQL
-      mutation SignUp($email: String!, $password: String!, $phoneNumber: String, $acceptsSms: Boolean) {
-        signUp(email: $email, password: $password, phoneNumber: $phoneNumber, acceptsSms: $acceptsSms) {
+      mutation SignUp($email: String!, $password: String!, $passwordConfirmation: String!, $phoneNumber: String, $acceptsSms: Boolean) {
+        signUp(email: $email, password: $password, passwordConfirmation: $passwordConfirmation, phoneNumber: $phoneNumber, acceptsSms: $acceptsSms) {
           user {
             email
             phoneNumber
