@@ -16,7 +16,9 @@ RSpec.describe "Update user", type: :request do
       zip: FFaker::AddressUS.zip_code,
       step: 2,
       completed: true,
-      profile_picture: 'https://some.url.com'
+      profile_picture: 'https://some.url.com',
+      accepted_terms: true,
+      package: Types::Package::DAILY.to_s
     )
 
     result = graphql(query: update_user_mutation, variables: variables, authentication_token: authentication_token).data.update_user.user
@@ -32,6 +34,8 @@ RSpec.describe "Update user", type: :request do
     expect(result.step).to eq(variables.step)
     expect(result.completed).to eq(variables.completed)
     expect(result.profile_picture).to eq(variables.profile_picture)
+    expect(result.accepted_terms).to eq(variables.accepted_terms)
+    expect(result.package).to eq(variables.package)
   end
 
   it "returns errors" do
@@ -50,8 +54,8 @@ RSpec.describe "Update user", type: :request do
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUsers: [String!], $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUsers: $authorizedUsers, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUsers: [String!], $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUsers: $authorizedUsers, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
           user {
             firstName
             lastName
@@ -64,6 +68,9 @@ RSpec.describe "Update user", type: :request do
             step
             completed
             profilePicture
+            acceptedTerms
+            receivesLowerPrice
+            package
           }
           errors {
             path
