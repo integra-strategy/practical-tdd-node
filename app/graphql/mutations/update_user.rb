@@ -29,13 +29,6 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   def resolve(attrs)
     user = User.find(attrs[:id])
     user.update_attributes(attrs.except(:id))
-    errors = user.errors.map do |attribute, message|
-      {
-        path: attribute.to_s.camelize(:lower),
-        message: message,
-      }
-    end
-    return { user: {}, errors: errors } unless errors.empty?
-    { user: user, errors: [] }
+    { user: user, errors: user.graphql_errors }
   end
 end

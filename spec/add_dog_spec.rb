@@ -12,7 +12,7 @@ RSpec.describe "Adding a dog", type: :request do
       color: 'Golden'
     )
 
-    result = graphql(query: add_dog, variables: variables, user: user).data.add_dog
+    result = graphql(query: add_dog, variables: variables, user: user).data.add_dog.dog
 
     expect(result.user.id.to_i).to eq(user.id)
     expect(result.picture).to eq(variables.picture)
@@ -26,14 +26,16 @@ RSpec.describe "Adding a dog", type: :request do
     <<~GQL
       mutation AddDog($userId: ID!, $picture: String, $name: String!, $age: Int, $sex: Sex, $color: String) {
         addDog(userId: $userId, picture: $picture, name: $name, age: $age, sex: $sex, color: $color) {
-          user {
-            id
+          dog {
+            user {
+              id
+            }
+            picture
+            name
+            age
+            sex
+            color
           }
-          picture
-          name
-          age
-          sex
-          color
         }
       }
     GQL

@@ -9,11 +9,12 @@ class Mutations::AddDog < Mutations::BaseMutation
   argument :sex, Types::Sex, "The sex of the dog", required: false
   argument :color, String, "The color of the dog", required: false
 
-  type Types::Dog
+  field :dog, Types::Dog, null: true
+  field :errors, [Types::UserError], null: true
 
   def resolve(*attrs)
     dog = Dog.new(*attrs)
     dog.save!
-    dog
+    { dog: dog, errors: dog.graphql_errors }
   end
 end

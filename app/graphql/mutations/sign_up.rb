@@ -14,13 +14,6 @@ class Mutations::SignUp < Mutations::BaseMutation
 
   def resolve(attrs)
     user = User.create(attrs)
-    errors = user.errors.map do |attribute, message|
-      {
-        path: attribute.to_s.camelize(:lower),
-        message: message,
-      }
-    end
-    return { user: {}, errors: errors } unless errors.empty?
-    { user: user, errors: [] }
+    { user: user, errors: user.graphql_errors }
   end
 end

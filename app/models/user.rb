@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :token_authenticatable
+
+  include GraphQlErrors
   
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number
