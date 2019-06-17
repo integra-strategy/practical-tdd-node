@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Update user", type: :request do
+RSpec.describe "Updating a user", type: :request do
   it "supports updating a user" do
     authentication_token = fetch_authentication_token
     user = create(:user)
