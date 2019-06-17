@@ -8,7 +8,7 @@ RSpec.describe "Update user", type: :request do
       id: user.id,
       first_name: 'John',
       last_name: 'Doe',
-      authorized_users: ['Jane Doe'],
+      authorized_user: 'Jane Doe',
       address: FFaker::Address.street_address,
       address2: FFaker::Address.secondary_address,
       city: FFaker::Address.city,
@@ -25,7 +25,7 @@ RSpec.describe "Update user", type: :request do
 
     expect(result.first_name).to eq(variables.first_name)
     expect(result.last_name).to eq(variables.last_name)
-    expect(result.authorized_users).to eq(variables.authorized_users)
+    expect(result.authorized_user).to eq(variables.authorized_user)
     expect(result.address).to eq(variables.address)
     expect(result.address2).to eq(variables.address2)
     expect(result.city).to eq(variables.city)
@@ -54,12 +54,12 @@ RSpec.describe "Update user", type: :request do
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUsers: [String!], $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUsers: $authorizedUsers, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
           user {
             firstName
             lastName
-            authorizedUsers
+            authorizedUser
             address
             address2
             city
