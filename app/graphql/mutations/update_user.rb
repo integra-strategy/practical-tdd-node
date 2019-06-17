@@ -9,7 +9,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :first_name, String, required: false
   argument :last_name, String, required: false
-  argument :authorized_users, [String], "The names of users that are authorized to take the user's dog to the park", required: false
+  argument :authorized_user, String, "The names of users that are authorized to take the user's dog to the park", required: false
   argument :address, String, required: false
   argument :address2, String, required: false
   argument :city, String, required: false
