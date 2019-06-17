@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Update user", type: :request do
+RSpec.describe "Updating a user", type: :request do
   it "supports updating a user" do
-    authentication_token = fetch_authentication_token
     user = create(:user)
     variables = OpenStruct.new(
       id: user.id,
@@ -21,7 +20,7 @@ RSpec.describe "Update user", type: :request do
       package: Types::Package::DAILY.to_s
     )
 
-    result = graphql(query: update_user_mutation, variables: variables, authentication_token: authentication_token).data.update_user.user
+    result = graphql(query: update_user_mutation, variables: variables, user: user).data.update_user.user
 
     expect(result.first_name).to eq(variables.first_name)
     expect(result.last_name).to eq(variables.last_name)
@@ -46,7 +45,7 @@ RSpec.describe "Update user", type: :request do
       profile_picture: 'invalid url'
       )
 
-    result = graphql(query: update_user_mutation, variables: variables, authentication_token: fetch_authentication_token)
+    result = graphql(query: update_user_mutation, variables: variables, user: user)
 
     errors = result.data.update_user.errors
     expect(errors.first).to have_attributes(path: 'profilePicture', message: 'Profile picture must be a valid URL')

@@ -1,12 +1,11 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :token_authenticatable
-  
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number
   validate :profile_picture_url_valid
   validate :passwords_match
-
   enum package: [Types::Package::DAILY, Types::Package::MONTHLY_MANUAL, Types::Package::MONTHLY_RECURRING, Types::Package::YEARLY]
+  include GraphQlErrors
 
   def ten_digit_phone_number
     if phone_number.present?
