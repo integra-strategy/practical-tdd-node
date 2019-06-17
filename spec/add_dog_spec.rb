@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Adding a dog", type: :request do
   it "supports updating a user" do
-    authentication_token = fetch_authentication_token
     user = create(:user)
     variables = OpenStruct.new(
       userId: user.id,
@@ -13,7 +12,7 @@ RSpec.describe "Adding a dog", type: :request do
       color: 'Golden'
     )
 
-    result = graphql(query: add_dog, variables: variables, authentication_token: authentication_token).data.add_dog
+    result = graphql(query: add_dog, variables: variables, user: user).data.add_dog
 
     expect(result.user.id.to_i).to eq(user.id)
     expect(result.picture).to eq(variables.picture)
