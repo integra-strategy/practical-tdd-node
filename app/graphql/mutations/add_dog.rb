@@ -5,9 +5,9 @@ class Mutations::AddDog < Mutations::BaseMutation
   argument :user_id, ID, "The user that the dog belongs to", required: true
   argument :picture, String, "URL of a picture of the dog", required: false
   argument :name, String, required: true
-  argument :age, Int, "How old the dog is (in human years)", required: false
-  argument :sex, Types::Sex, "The sex of the dog", required: false
-  argument :color, String, "The color of the dog", required: false
+  argument :age, Int, required: false
+  argument :sex, Types::Sex, required: false
+  argument :color, String, required: false
 
   field :dog, Types::Dog, null: true
   field :errors, [Types::UserError], null: true

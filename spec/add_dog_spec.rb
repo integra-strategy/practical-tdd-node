@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Adding a dog", type: :request do
-  it "supports updating a user" do
+  it "supports adding a dog" do
     user = create(:user)
     variables = OpenStruct.new(
       userId: user.id,
