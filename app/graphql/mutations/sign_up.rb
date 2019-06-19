@@ -8,12 +8,12 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :accepts_sms, Boolean, "whether or not the user has agreed to receive SMS for updates and specials", required: false
 
-  field :user, Types::UserType, null: true
+  field :user, Types::User, null: true
 
   field :errors, [Types::UserError], null: false
 
   def resolve(attrs)
-    user = User.create(attrs)
+    user = Member.create(attrs)
     { user: user, errors: user.graphql_errors }
   end
 end

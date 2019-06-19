@@ -22,7 +22,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :receives_lower_price, Boolean, "Whether or not the user receives a lower price. If a user had an account before the app was created, then they are grandfathered in and receive a lower price until the end of 2019.", required: false
   argument :package, Types::Package, "The payment package that the user selected when signing up", required: false
 
-  field :user, Types::UserType, null: true
+  field :user, Types::User, null: true
 
   field :errors, [Types::UserError], null: false
 

@@ -1,4 +1,4 @@
-class Types::UserType < Types::BaseObject
+class Types::User < Types::BaseObject
 
   description 'User type for members and employees'
 
@@ -6,7 +6,8 @@ class Types::UserType < Types::BaseObject
   COMPLETED_DESCRIPTION = "Whether or not the user has completed the sign up process."
 
   field :id, ID, null: false
-  field :email, String, null: true
+  field :type, Types::UserEnum, null: false
+  field :email, String, null: false
   field :first_name, String, null: true
   field :last_name, String, null: true
   field :authorized_user, String, "The names of users that are authorized to take the user's dog to the park", null: true
