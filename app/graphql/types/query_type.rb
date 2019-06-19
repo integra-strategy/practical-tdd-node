@@ -17,7 +17,7 @@ module Types
     end
 
     def user_detail(id:)
-      User.find(id)
+      ::User.find(id)
     end
   end
 end
