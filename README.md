@@ -29,6 +29,16 @@ The mutation will return an authentication token that you can then add to the `A
 
 To see the rest of the documenation for the API, sign in with a user account and click the "Docs" button on the right side of the GraphiQL interface. There, you'll be able to see all of the available queries, mutations, and types as well as their descriptions.
 
+## Seed Data
+
+**Member**
+Username: member@example.com
+Password: password
+
+**Employee**
+Username: employee@example.com
+Password: password
+
 ## Project Structure
 
 This is a Rails 5 app created using [ry-rails][]. Please check README of the template repository to see the features available out of the box. To have a look to the new features introduced by Rails 5.2 (credentials for example), check this [article][].
