@@ -16,6 +16,7 @@ RSpec.describe "Sign up", type: :request do
     expect(user.email).to eq(variables.email)
     expect(user.phone_number).to eq(variables.phone_number)
     expect(user.accepts_sms).to eq(variables.accepts_sms)
+    expect(user.type).to eq(Types::UserEnum::MEMBER.to_s)
   end
 
   it "returns errors" do
@@ -44,6 +45,7 @@ RSpec.describe "Sign up", type: :request do
             phoneNumber
             acceptsSms
             profilePicture
+            type
           }
           errors {
             path

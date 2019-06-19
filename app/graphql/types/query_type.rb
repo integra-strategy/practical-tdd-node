@@ -3,8 +3,8 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :me, Types::UserType, null: true
-    field :user_detail, Types::UserType, null: true do
+    field :me, Types::User, null: true
+    field :user_detail, Types::User, null: true do
       description "Fetch details for a user by ID"
       argument :id, ID, required: true
     end
