@@ -13,7 +13,9 @@ class Mutations::SignUp < Mutations::BaseMutation
   field :errors, [Types::UserError], null: false
 
   def resolve(attrs)
-    user = Member.create(attrs)
+    user = Member.new(attrs)
+    user.skip_confirmation_notification!
+    user.save
     { user: user, errors: user.graphql_errors }
   end
 end
