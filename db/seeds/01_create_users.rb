@@ -16,4 +16,4 @@ employee = Employee.new(
   profile_picture: 'https://example.com'
 )
 employee.skip_confirmation!
-empmloyee.save
+employee.save
