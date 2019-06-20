@@ -4,7 +4,12 @@ module Fetch
       <<~GQL
         mutation SignIn($email: String!, $password: String!) {
           signIn(email: $email, password: $password) {
-            authenticationToken
+            auth {
+              authenticationToken
+            }
+            user {
+              id
+            }
           }
         }
       GQL
