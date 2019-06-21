@@ -2,29 +2,34 @@ require 'rails_helper'
 
 RSpec.describe "Updating a dog", type: :request do
   it "updates the dog" do
-    dog = create(:dog)
-    variables = OpenStruct.new(
-      id: dog.id,
+    variables = {
       rabies: Time.zone.now.iso8601,
       dhlpp: Time.zone.now.iso8601, 
       leptospirosis: Time.zone.now.iso8601, 
       bordetella: Time.zone.now.iso8601,
       separate_leptospirosis: true,
       vaccination_image_urls: ['https://example.com']
-    )
-    result = update_dog(dog, variables)
+    }
+    dog = create(:dog, variables)
+
+    result = update_dog(dog)
 
     expect(result.dog.id).to eq(dog.id.to_s)
-    expect(result.dog.rabies).to eq(variables.rabies)
-    expect(result.dog.dhlpp).to eq(variables.dhlpp)
-    expect(result.dog.leptospirosis).to eq(variables.leptospirosis)
-    expect(result.dog.bordetella).to eq(variables.bordetella)
-    expect(result.dog.separate_leptospirosis).to eq(variables.separate_leptospirosis)
-    expect(result.dog.vaccination_image_urls).to eq(variables.vaccination_image_urls)
+    expect(result.dog).to have_attributes(variables)
   end
 
-  def update_dog(dog, variables)
-    graphql(query: MUTATION, variables: variables, user: dog.user).data.update_dog
+  it "handles errors" do
+    dog = build(:dog)
+    dog.id = 123
+    result = update_dog(dog)
+
+    error = result.errors.first
+    expect(error.path).to eq('id')
+    expect(error.message).to eq('dog not found')
+  end
+
+  def update_dog(dog)
+    graphql(query: MUTATION, variables: OpenStruct.new(dog.attributes), user: dog.user).data.update_dog
   end
 
   MUTATION = <<~GQL
@@ -38,6 +43,10 @@ RSpec.describe "Updating a dog", type: :request do
           bordetella
           separateLeptospirosis
           vaccinationImageUrls
+        }
+        errors {
+          path
+          message
         }
       }
     }

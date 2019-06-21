@@ -11,12 +11,13 @@ class Mutations::UpdateDog < Mutations::BaseMutation
   argument :vaccination_image_urls, [String], required: false
 
   field :dog, Types::Dog, null: true
+  field :errors, [Types::UserError], null: false
 
   def resolve(args)
     id = args[:id]
-    dog = Dog.find(id)
+    dog = Dog.where(id: id).first || NilDog.new
     dog.update(args.except(:id))
     dog.reload
-    { dog: dog }
+    { dog: dog, errors: dog.graphql_errors }
   end
 end
