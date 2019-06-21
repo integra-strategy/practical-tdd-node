@@ -7,4 +7,10 @@ class Types::Dog < Types::BaseObject
   field :age, Int, null: true
   field :sex, Types::Sex, null: true
   field :color, String, null: true
+  field :rabies, GraphQL::Types::ISO8601DateTime, null: true
+  field :dhlpp, GraphQL::Types::ISO8601DateTime, null: true
+  field :leptospirosis, GraphQL::Types::ISO8601DateTime, null: true
+  field :bordetella, GraphQL::Types::ISO8601DateTime, null: true
+  field :separate_leptospirosis, Boolean, null: true
+  field :vaccination_image_urls, [String], null: true
 end
