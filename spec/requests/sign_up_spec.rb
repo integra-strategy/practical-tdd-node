@@ -10,13 +10,14 @@ RSpec.describe "Sign up", type: :request do
       accepts_sms: true
     )
 
-    result = graphql(query: sign_up_mutation, variables: variables)
+    result = graphql(query: sign_up_mutation, variables: variables).data.sign_up
 
-    user = result.data.sign_up.user
+    user = result.user
     expect(user.email).to eq(variables.email)
     expect(user.phone_number).to eq(variables.phone_number)
     expect(user.accepts_sms).to eq(variables.accepts_sms)
     expect(user.type).to eq(Types::UserEnum::MEMBER.to_s)
+    expect(result.auth.authentication_token).not_to be_nil
   end
 
   it "returns errors" do
@@ -46,6 +47,9 @@ RSpec.describe "Sign up", type: :request do
             acceptsSms
             profilePicture
             type
+          }
+          auth {
+            authenticationToken
           }
           errors {
             path
