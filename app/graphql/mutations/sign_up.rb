@@ -9,13 +9,19 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :accepts_sms, Boolean, "whether or not the user has agreed to receive SMS for updates and specials", required: false
 
   field :user, Types::User, null: true
-
+  field :auth, Types::AuthType, null: true
   field :errors, [Types::UserError], null: false
 
   def resolve(attrs)
     user = Member.new(attrs)
     user.skip_confirmation_notification!
     user.save
-    { user: user, errors: user.graphql_errors }
+    result = { user: user, errors: user.graphql_errors }
+    result.tap do |r|
+      if user.valid?
+        user.ensure_authentication_token!
+        r[:auth] = { authentication_token: user.authentication_token }
+      end
+    end
   end
 end
