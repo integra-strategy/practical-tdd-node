@@ -12,5 +12,5 @@ class Types::Dog < Types::BaseObject
   field :leptospirosis, GraphQL::Types::ISO8601DateTime, null: true
   field :bordetella, GraphQL::Types::ISO8601DateTime, null: true
   field :separate_leptospirosis, Boolean, null: true
-  field :vaccination_image_urls, [String], null: true
+  field :vaccination_image_urls, [Types::Url], null: true
 end

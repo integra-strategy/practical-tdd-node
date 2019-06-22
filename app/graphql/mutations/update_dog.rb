@@ -8,7 +8,7 @@ class Mutations::UpdateDog < Mutations::BaseMutation
   argument :leptospirosis, GraphQL::Types::ISO8601DateTime, required: false
   argument :bordetella, GraphQL::Types::ISO8601DateTime, required: false
   argument :separate_leptospirosis, GraphQL::Types::Boolean, required: false
-  argument :vaccination_image_urls, [String], required: false
+  argument :vaccination_image_urls, [Types::Url], required: false
 
   field :dog, Types::Dog, null: true
   field :errors, [Types::UserError], null: false

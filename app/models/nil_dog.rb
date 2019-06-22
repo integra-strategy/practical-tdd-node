@@ -3,7 +3,9 @@ class NilDog < Dog
 
   def errors
     super.tap do |e|
-      e.add(:id, 'dog not found')
+      unless e.include?(:id)
+        e.add(:id, 'dog not found')
+      end
     end
   end
 end

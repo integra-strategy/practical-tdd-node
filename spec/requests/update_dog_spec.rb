@@ -21,6 +21,7 @@ RSpec.describe "Updating a dog", type: :request do
   it "handles errors" do
     dog = build(:dog)
     dog.id = 123
+
     result = update_dog(dog)
 
     error = result.errors.first
@@ -33,7 +34,7 @@ RSpec.describe "Updating a dog", type: :request do
   end
 
   MUTATION = <<~GQL
-    mutation UpdateDog($id: ID!, $rabies: ISO8601DateTime, $dhlpp: ISO8601DateTime, $leptospirosis: ISO8601DateTime, $bordetella: ISO8601DateTime, $separateLeptospirosis: Boolean, $vaccinationImageUrls: [String!]) {
+    mutation UpdateDog($id: ID!, $rabies: ISO8601DateTime, $dhlpp: ISO8601DateTime, $leptospirosis: ISO8601DateTime, $bordetella: ISO8601DateTime, $separateLeptospirosis: Boolean, $vaccinationImageUrls: [Url!]) {
       updateDog(id: $id, rabies: $rabies, dhlpp: $dhlpp, leptospirosis: $leptospirosis, bordetella: $bordetella, separateLeptospirosis: $separateLeptospirosis, vaccinationImageUrls: $vaccinationImageUrls) {
         dog {
           id
