@@ -37,23 +37,9 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.package).to eq(variables.package)
   end
 
-  it "returns errors" do
-    user = create(:user)
-    variables = OpenStruct.new(
-      id: user.id,
-      phone_number: 'not a phone number',
-      profile_picture: 'invalid url'
-      )
-
-    result = graphql(query: update_user_mutation, variables: variables, user: user)
-
-    errors = result.data.update_user.errors
-    expect(errors.first).to have_attributes(path: 'profilePicture', message: 'Profile picture must be a valid URL')
-  end
-
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: Url, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
         updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
           user {
             firstName

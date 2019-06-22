@@ -4,5 +4,6 @@ module Types
     field :sign_up, mutation: Mutations::SignUp
     field :update_user, mutation: Mutations::UpdateUser
     field :add_dog, mutation: Mutations::AddDog
+    field :update_dog, mutation: Mutations::UpdateDog
   end
 end

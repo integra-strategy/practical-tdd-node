@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_180817) do
+ActiveRecord::Schema.define(version: 2019_06_20_212255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(version: 2019_06_20_180817) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.datetime "rabies"
+    t.datetime "dhlpp"
+    t.datetime "leptospirosis"
+    t.datetime "bordetella"
+    t.boolean "separate_leptospirosis"
+    t.string "vaccination_image_urls", default: [], array: true
     t.index ["user_id"], name: "index_dogs_on_user_id"
   end
 
