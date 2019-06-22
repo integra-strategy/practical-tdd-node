@@ -17,7 +17,6 @@ class Mutations::UpdateDog < Mutations::BaseMutation
     id = args[:id]
     dog = Dog.where(id: id).first || NilDog.new
     dog.update(args.except(:id))
-    dog.reload
     { dog: dog, errors: dog.graphql_errors }
   end
 end
