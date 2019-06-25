@@ -16,9 +16,10 @@ class Mutations::SignUp < Mutations::BaseMutation
     user = Member.new(attrs)
     user.skip_confirmation_notification!
     user.save
-    result = { user: user, errors: user.graphql_errors }
+    result = { errors: user.graphql_errors }
     result.tap do |r|
       if user.valid?
+        r[:user] = user
         user.ensure_authentication_token!
         r[:auth] = { authentication_token: user.authentication_token }
       end
