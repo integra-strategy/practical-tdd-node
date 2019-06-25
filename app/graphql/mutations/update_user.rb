@@ -21,6 +21,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :accepted_terms, Boolean, "Whether or not the user has accepted the terms and conditions", required: false
   argument :receives_lower_price, Boolean, "Whether or not the user receives a lower price. If a user had an account before the app was created, then they are grandfathered in and receive a lower price until the end of 2019.", required: false
   argument :package, Types::Package, "The payment package that the user selected when signing up", required: false
+  argument :phone_number, String, "10 digit phone number for user", required: false
 
   field :user, Types::User, null: true
 
