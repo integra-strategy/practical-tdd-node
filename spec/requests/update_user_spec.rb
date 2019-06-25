@@ -17,7 +17,8 @@ RSpec.describe "Updating a user", type: :request do
       completed: true,
       profile_picture: 'https://some.url.com',
       accepted_terms: true,
-      package: Types::Package::DAILY.to_s
+      package: Types::Package::DAILY.to_s,
+      phone_number: '1234567890'
     )
 
     result = graphql(query: update_user_mutation, variables: variables, user: user).data.update_user.user
@@ -35,12 +36,26 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.profile_picture).to eq(variables.profile_picture)
     expect(result.accepted_terms).to eq(variables.accepted_terms)
     expect(result.package).to eq(variables.package)
+    expect(result.phone_number).to eq(variables.phone_number)
+  end
+
+  it "returns errors" do
+    user = create(:user)
+    variables = OpenStruct.new(
+      id: user.id,
+      phone_number: 'not a phone number'
+      )
+
+    result = graphql(query: update_user_mutation, variables: variables, user: user)
+
+    errors = result.data.update_user.errors
+    expect(errors.first).to have_attributes(path: 'phoneNumber', message: 'Phone number must be 10 digits')
   end
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: Url, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: Url, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package, $phoneNumber: String) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package, phoneNumber: $phoneNumber) {
           user {
             firstName
             lastName
@@ -56,6 +71,7 @@ RSpec.describe "Updating a user", type: :request do
             acceptedTerms
             receivesLowerPrice
             package
+            phoneNumber
           }
           errors {
             path
