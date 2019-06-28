@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Updating a dog", type: :request do
   it "updates the dog" do
     filename = 'file.txt'
-    vaccination_image = create_direct_upload(filename: filename)
+    vaccination_picture = create_direct_upload(filename: filename)
     dog = create(
       :dog,
       rabies: Time.zone.now.iso8601,
@@ -13,7 +13,7 @@ RSpec.describe "Updating a dog", type: :request do
       separate_leptospirosis: true
     )
 
-    result = update_dog(dog, { vaccination_images: [vaccination_image["signed_id"]] })
+    result = update_dog(dog, { vaccination_pictures: [vaccination_picture["signed_id"]] })
 
     expect(result.dog.id).to eq(dog.id.to_s)
     expect(result.dog.rabies).to eq(dog.rabies.iso8601)
@@ -21,8 +21,8 @@ RSpec.describe "Updating a dog", type: :request do
     expect(result.dog.leptospirosis).to eq(dog.leptospirosis.iso8601)
     expect(result.dog.bordetella).to eq(dog.bordetella.iso8601)
     expect(result.dog.separate_leptospirosis).to eq(dog.separate_leptospirosis)
-    expect(result.dog.vaccination_images.first.url).to eq("/rails/active_storage/blobs/#{vaccination_image['signed_id']}/#{filename}")
-    expect(result.dog.vaccination_images.first.name).to eq(filename)
+    expect(result.dog.vaccination_pictures.first.url).to eq("/rails/active_storage/blobs/#{vaccination_picture['signed_id']}/#{filename}")
+    expect(result.dog.vaccination_pictures.first.name).to eq(filename)
   end
 
   it "handles errors" do
@@ -41,8 +41,8 @@ RSpec.describe "Updating a dog", type: :request do
   end
 
   MUTATION = <<~GQL
-    mutation UpdateDog($id: ID!, $rabies: ISO8601DateTime, $dhlpp: ISO8601DateTime, $leptospirosis: ISO8601DateTime, $bordetella: ISO8601DateTime, $separateLeptospirosis: Boolean, $vaccinationImages: [String!]) {
-      updateDog(id: $id, rabies: $rabies, dhlpp: $dhlpp, leptospirosis: $leptospirosis, bordetella: $bordetella, separateLeptospirosis: $separateLeptospirosis, vaccinationImages: $vaccinationImages) {
+    mutation UpdateDog($id: ID!, $rabies: ISO8601DateTime, $dhlpp: ISO8601DateTime, $leptospirosis: ISO8601DateTime, $bordetella: ISO8601DateTime, $separateLeptospirosis: Boolean, $vaccinationPictures: [String!]) {
+      updateDog(id: $id, rabies: $rabies, dhlpp: $dhlpp, leptospirosis: $leptospirosis, bordetella: $bordetella, separateLeptospirosis: $separateLeptospirosis, vaccinationPictures: $vaccinationPictures) {
         dog {
           id
           rabies
@@ -50,7 +50,7 @@ RSpec.describe "Updating a dog", type: :request do
           leptospirosis
           bordetella
           separateLeptospirosis
-          vaccinationImages {
+          vaccinationPictures {
             url
             name
           }

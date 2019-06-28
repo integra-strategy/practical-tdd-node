@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe "Adding a dog", type: :request do
   it "supports adding a dog" do
     filename = "file.txt"
-    picture = create_direct_upload(filename: filename)
+    profile_picture = create_direct_upload(filename: filename)
     user = create(:user)
     variables = OpenStruct.new(
       userId: user.id,
-      picture: picture["signed_id"],
+      profile_picture: profile_picture["signed_id"],
       name: 'Buddy',
       age: 3,
       sex: 'MALE',
@@ -17,8 +17,8 @@ RSpec.describe "Adding a dog", type: :request do
     result = graphql(query: add_dog, variables: variables, user: user).data.add_dog.dog
 
     expect(result.user.id.to_i).to eq(user.id)
-    expect(result.picture.url).to eq("/rails/active_storage/blobs/#{picture['signed_id']}/#{filename}")
-    expect(result.picture.name).to eq(filename)
+    expect(result.profile_picture.url).to eq("/rails/active_storage/blobs/#{profile_picture['signed_id']}/#{filename}")
+    expect(result.profile_picture.name).to eq(filename)
     expect(result.name).to eq(variables.name)
     expect(result.age).to eq(variables.age)
     expect(result.sex).to eq(variables.sex)
@@ -27,13 +27,13 @@ RSpec.describe "Adding a dog", type: :request do
 
   def add_dog
     <<~GQL
-      mutation AddDog($userId: ID!, $picture: String, $name: String!, $age: Int, $sex: Sex, $color: String) {
-        addDog(userId: $userId, picture: $picture, name: $name, age: $age, sex: $sex, color: $color) {
+      mutation AddDog($userId: ID!, $profilePicture: String, $name: String!, $age: Int, $sex: Sex, $color: String) {
+        addDog(userId: $userId, profilePicture: $profilePicture, name: $name, age: $age, sex: $sex, color: $color) {
           dog {
             user {
               id
             }
-            picture {
+            profilePicture {
               url
               name
             }
