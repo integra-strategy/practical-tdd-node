@@ -65,4 +65,5 @@ RSpec.configure do |config|
   config.include Fetch::GraphQlHelpers
   config.include Fetch::Mutations
   config.include Fetch::Queries
+  config.include Fetch::DirectUpload
 end

@@ -12,8 +12,8 @@ class Mutations::AddDog < Mutations::BaseMutation
   field :dog, Types::Dog, null: true
   field :errors, [Types::UserError], null: true
 
-  def resolve(*attrs)
-    dog = Dog.new(*attrs)
+  def resolve(**attrs)
+    dog = Dog.new(attrs)
     dog.save!
     { dog: dog.attributes, errors: dog.graphql_errors }
   end
