@@ -17,7 +17,8 @@ RSpec.describe "Adding a dog", type: :request do
     result = graphql(query: add_dog, variables: variables, user: user).data.add_dog.dog
 
     expect(result.user.id.to_i).to eq(user.id)
-    expect(result.picture).to eq("/rails/active_storage/blobs/#{variables.picture}/#{filename}")
+    expect(result.picture.url).to eq("/rails/active_storage/blobs/#{variables.picture}/#{filename}")
+    expect(result.picture.name).to eq(filename)
     expect(result.name).to eq(variables.name)
     expect(result.age).to eq(variables.age)
     expect(result.sex).to eq(variables.sex)
@@ -32,7 +33,10 @@ RSpec.describe "Adding a dog", type: :request do
             user {
               id
             }
-            picture
+            picture {
+              url
+              name
+            }
             name
             age
             sex

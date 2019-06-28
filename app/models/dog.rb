@@ -8,13 +8,13 @@ class Dog < ApplicationRecord
   def attributes
     super.tap do |attrs|
       if picture.attached?
-        attrs[:picture] = Rails.application.routes.url_helpers.rails_blob_path(picture, only_path: true)
+        attrs[:picture] = picture
       end
       unless user.nil?
         attrs[:user] = user.as_json
       end
       if vaccination_images.attached?
-        attrs[:vaccination_images] = vaccination_images.map { |vaccination_image| Rails.application.routes.url_helpers.rails_blob_path(vaccination_image, only_path: true) }
+        attrs[:vaccination_images] = vaccination_images
       end
     end
   end
