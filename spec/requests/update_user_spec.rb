@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "Updating a user", type: :request do
   it "supports updating a user" do
     user = create(:user)
+    filename = 'file.txt'
+    image = create_direct_upload(filename: filename)
     variables = OpenStruct.new(
       id: user.id,
       first_name: 'John',
@@ -15,7 +17,7 @@ RSpec.describe "Updating a user", type: :request do
       zip: FFaker::AddressUS.zip_code,
       step: 2,
       completed: true,
-      profile_picture: 'https://some.url.com',
+      profile_picture: image["signed_id"],
       accepted_terms: true,
       package: Types::Package::DAILY.to_s,
       phone_number: '1234567890'
@@ -33,7 +35,8 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.zip).to eq(variables.zip)
     expect(result.step).to eq(variables.step)
     expect(result.completed).to eq(variables.completed)
-    expect(result.profile_picture).to eq(variables.profile_picture)
+    expect(result.profile_picture.url).to eq("/rails/active_storage/blobs/#{image['signed_id']}/#{filename}")
+    expect(result.profile_picture.name).to eq(filename)
     expect(result.accepted_terms).to eq(variables.accepted_terms)
     expect(result.package).to eq(variables.package)
     expect(result.phone_number).to eq(variables.phone_number)
@@ -54,7 +57,7 @@ RSpec.describe "Updating a user", type: :request do
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: Url, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package, $phoneNumber: String) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package, $phoneNumber: String) {
         updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package, phoneNumber: $phoneNumber) {
           user {
             firstName
@@ -67,7 +70,10 @@ RSpec.describe "Updating a user", type: :request do
             zip
             step
             completed
-            profilePicture
+            profilePicture {
+              url
+              name
+            }
             acceptedTerms
             receivesLowerPrice
             package

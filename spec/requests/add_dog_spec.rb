@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe "Adding a dog", type: :request do
   it "supports adding a dog" do
     filename = "file.txt"
-    direct_upload = create_direct_upload(filename: filename)
+    picture = create_direct_upload(filename: filename)
     user = create(:user)
     variables = OpenStruct.new(
       userId: user.id,
-      picture: direct_upload["signed_id"],
+      picture: picture["signed_id"],
       name: 'Buddy',
       age: 3,
       sex: 'MALE',
@@ -17,7 +17,7 @@ RSpec.describe "Adding a dog", type: :request do
     result = graphql(query: add_dog, variables: variables, user: user).data.add_dog.dog
 
     expect(result.user.id.to_i).to eq(user.id)
-    expect(result.picture.url).to eq("/rails/active_storage/blobs/#{variables.picture}/#{filename}")
+    expect(result.picture.url).to eq("/rails/active_storage/blobs/#{picture['signed_id']}/#{filename}")
     expect(result.picture.name).to eq(filename)
     expect(result.name).to eq(variables.name)
     expect(result.age).to eq(variables.age)

@@ -21,7 +21,7 @@ RSpec.describe "Updating a dog", type: :request do
     expect(result.dog.leptospirosis).to eq(dog.leptospirosis.iso8601)
     expect(result.dog.bordetella).to eq(dog.bordetella.iso8601)
     expect(result.dog.separate_leptospirosis).to eq(dog.separate_leptospirosis)
-    expect(result.dog.vaccination_images.first.url).to eq("/rails/active_storage/blobs/#{vaccination_image["signed_id"]}/#{filename}")
+    expect(result.dog.vaccination_images.first.url).to eq("/rails/active_storage/blobs/#{vaccination_image['signed_id']}/#{filename}")
     expect(result.dog.vaccination_images.first.name).to eq(filename)
   end
 

@@ -13,7 +13,7 @@ class Types::User < Types::BaseObject
   field :authorized_user, String, "The names of users that are authorized to take the user's dog to the park", null: true
   field :phone_number, String, "10 digit phone number for user", null: true
   field :accepts_sms, Boolean, "whether or not the user has agreed to receive SMS for updates and specials", null: true
-  field :profile_picture, Types::Url, "a URL of the profile picture for the user", null: true
+  field :profile_picture, Types::File, "The signed ID of the file from AWS S3", null: true
   field :address, String, null: true
   field :address2, String, null: true
   field :city, String, null: true
