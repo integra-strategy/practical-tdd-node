@@ -2,10 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "Adding a dog", type: :request do
   it "supports adding a dog" do
+    filename = "file.txt"
+    direct_upload = create_direct_upload(filename: filename)
     user = create(:user)
     variables = OpenStruct.new(
       userId: user.id,
-      picture: 'https://example.com',
+      picture: direct_upload["signed_id"],
       name: 'Buddy',
       age: 3,
       sex: 'MALE',
@@ -15,7 +17,7 @@ RSpec.describe "Adding a dog", type: :request do
     result = graphql(query: add_dog, variables: variables, user: user).data.add_dog.dog
 
     expect(result.user.id.to_i).to eq(user.id)
-    expect(result.picture).to eq(variables.picture)
+    expect(result.picture).to eq("/rails/active_storage/blobs/#{variables.picture}/#{filename}")
     expect(result.name).to eq(variables.name)
     expect(result.age).to eq(variables.age)
     expect(result.sex).to eq(variables.sex)
@@ -39,5 +41,12 @@ RSpec.describe "Adding a dog", type: :request do
         }
       }
     GQL
+  end
+
+  def create_direct_upload(filename:)
+    stub_request(:get, /https\:\/\/fetchpark\-staging\-private\.s3\.amazonaws\.com.*/).to_return(status: 200, body: "", headers: {})
+    checksum = Digest::MD5.base64digest("Testing")
+    post rails_direct_uploads_url params: { blob: { filename: filename, content_type: "text/plain", byte_size: 8, checksum: checksum } }
+    response.parsed_body
   end
 end
