@@ -6,6 +6,5 @@ FactoryBot.define do
     leptospirosis { Time.zone.now.iso8601 }
     bordetella { Time.zone.now.iso8601 }
     separate_leptospirosis { true }
-    vaccination_image_urls { ['https://example.com'] }
   end
 end

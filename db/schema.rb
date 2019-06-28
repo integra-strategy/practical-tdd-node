@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_27_182232) do
+ActiveRecord::Schema.define(version: 2019_06_28_214853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 2019_06_27_182232) do
   end
 
   create_table "dogs", force: :cascade do |t|
-    t.string "picture"
     t.text "name"
     t.integer "age"
     t.integer "sex"
@@ -50,7 +49,6 @@ ActiveRecord::Schema.define(version: 2019_06_27_182232) do
     t.datetime "leptospirosis"
     t.datetime "bordetella"
     t.boolean "separate_leptospirosis"
-    t.string "vaccination_image_urls", default: [], array: true
     t.index ["user_id"], name: "index_dogs_on_user_id"
   end
 
