@@ -46,7 +46,10 @@ RSpec.describe "Sign up", type: :request do
             email
             phoneNumber
             acceptsSms
-            profilePicture
+            profilePicture {
+              url
+              name
+            }
             type
           }
           auth {

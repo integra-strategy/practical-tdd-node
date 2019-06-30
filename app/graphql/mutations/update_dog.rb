@@ -8,7 +8,7 @@ class Mutations::UpdateDog < Mutations::BaseMutation
   argument :leptospirosis, GraphQL::Types::ISO8601DateTime, required: false
   argument :bordetella, GraphQL::Types::ISO8601DateTime, required: false
   argument :separate_leptospirosis, GraphQL::Types::Boolean, required: false
-  argument :vaccination_image_urls, [Types::Url], required: false
+  argument :vaccination_pictures, [String], "The S3 signed IDs of vaccination records for the dog", required: false
 
   field :dog, Types::Dog, null: true
   field :errors, [Types::UserError], null: false
@@ -17,6 +17,6 @@ class Mutations::UpdateDog < Mutations::BaseMutation
     id = args[:id]
     dog = Dog.where(id: id).first || NilDog.new
     dog.update(args.except(:id))
-    { dog: dog, errors: dog.graphql_errors }
+    { dog: dog.attributes, errors: dog.graphql_errors }
   end
 end
