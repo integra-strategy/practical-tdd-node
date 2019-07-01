@@ -19,7 +19,6 @@ RSpec.describe "Updating a user", type: :request do
       completed: true,
       profile_picture: image["signed_id"],
       accepted_terms: true,
-      package: Types::Package::DAILY.to_s,
       phone_number: '1234567890'
     )
 
@@ -38,7 +37,6 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.profile_picture.url).to eq("/rails/active_storage/blobs/#{image['signed_id']}/#{filename}")
     expect(result.profile_picture.name).to eq(filename)
     expect(result.accepted_terms).to eq(variables.accepted_terms)
-    expect(result.package).to eq(variables.package)
     expect(result.phone_number).to eq(variables.phone_number)
   end
 
@@ -57,8 +55,8 @@ RSpec.describe "Updating a user", type: :request do
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package, $phoneNumber: String) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package, phoneNumber: $phoneNumber) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $phoneNumber: String) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, phoneNumber: $phoneNumber) {
           user {
             firstName
             lastName
@@ -76,7 +74,6 @@ RSpec.describe "Updating a user", type: :request do
             }
             acceptedTerms
             receivesLowerPrice
-            package
             phoneNumber
           }
           errors {

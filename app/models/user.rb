@@ -5,7 +5,6 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number
   validate :passwords_match
-  enum package: [Types::Package::DAILY, Types::Package::MONTHLY_MANUAL, Types::Package::MONTHLY_RECURRING, Types::Package::YEARLY]
   include GraphQlErrors
 
   def ten_digit_phone_number

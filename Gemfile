@@ -89,3 +89,5 @@ gem 'devise-token_authenticatable'
 gem "rack-cors", "~> 1.0"
 
 gem "aws-sdk-s3", "~> 1.43"
+
+gem "stripe", "~> 4.21"
