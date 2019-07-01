@@ -18,6 +18,6 @@ class Mutations::AddDogs < Mutations::BaseMutation
       }
     end
     dogs = Dog.create(parsed_attrs)
-    { dogs: dogs.map(&:attributes) }
+    { dogs: dogs.map(&:to_graphql) }
   end
 end

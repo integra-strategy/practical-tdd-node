@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one_attached :profile_picture
+  has_many :dogs
   devise :database_authenticatable, :token_authenticatable, :confirmable
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number
@@ -17,6 +18,14 @@ class User < ApplicationRecord
   def passwords_match
     if password_confirmation.present? && password.present? && password_confirmation != password
       errors.add(:password, "Passwords don't match")
+    end
+  end
+
+  def to_graphql
+    attributes.tap do |attributes|
+      unless dogs.empty?
+        attributes[:dogs] = dogs.as_json
+      end
     end
   end
 end

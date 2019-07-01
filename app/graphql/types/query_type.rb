@@ -17,7 +17,7 @@ module Types
     end
 
     def user_detail(id:)
-      ::User.find(id)
+      ::User.includes(:dogs).find(id).to_graphql
     end
   end
 end

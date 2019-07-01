@@ -5,8 +5,8 @@ class Dog < ApplicationRecord
   enum sex: [Types::Sex::MALE, Types::Sex::FEMALE]
   include GraphQlErrors
 
-  def attributes
-    super.tap do |attrs|
+  def to_graphql
+    attributes.tap do |attrs|
       if profile_picture.attached?
         attrs[:profile_picture] = profile_picture
       end
