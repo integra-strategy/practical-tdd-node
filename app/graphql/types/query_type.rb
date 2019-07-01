@@ -27,7 +27,7 @@ module Types
     end
 
     def packages
-      Stripe::Plan.list(limit: 10)
+      ::Package.fetch_all
     end
   end
 end

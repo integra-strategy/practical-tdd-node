@@ -2,10 +2,17 @@ require 'rails_helper'
 
 RSpec.describe "Fetching packages", type: :request do
   it "returns packages from Stripe" do
-    package = create_package(name: 'Monthly')
+    WebMock.enable_net_connect!
+    package = create_package(
+      name: 'Monthly',
+      amount: 123,
+      description: ['Some description']
+    )
     result = fetch_packages.first
 
     expect(result.name).to eq(package.name)
+    expect(result.amount).to eq(package.amount)
+    expect(result.description).to eq(package.description)
   end
 
   def fetch_packages
@@ -13,6 +20,8 @@ RSpec.describe "Fetching packages", type: :request do
       query Packages {
         packages {
           name
+          amount
+          description
         }
       }
     GQL

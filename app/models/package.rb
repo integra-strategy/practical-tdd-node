@@ -4,6 +4,10 @@ class Package
     new Stripe::Plan.retrieve(id)
   end
 
+  def self.fetch_all
+    Stripe::Plan.list(limit: 10).map { |plan| new plan }
+  end
+
   def initialize(plan)
     @plan = plan || {}
   end
@@ -13,6 +17,20 @@ class Package
   end
 
   def name
-    @plan[:metadata].try(:display_name)
+    metadata[:display_name]
+  end
+
+  def amount
+    @plan[:amount]
+  end
+
+  def description
+    JSON.parse(metadata[:description])
+  end
+
+  private
+
+  def metadata
+    @plan[:metadata] || {}
   end
 end

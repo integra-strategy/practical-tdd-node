@@ -10,6 +10,8 @@ module Fetch
             }
             package {
               id
+              name
+              amount
             }
           }
         }
