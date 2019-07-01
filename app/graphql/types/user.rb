@@ -24,4 +24,5 @@ class Types::User < Types::BaseObject
   field :accepted_terms, Boolean, "Whether or not the user has accepted the terms and conditions", null: true
   field :receives_lower_price, Boolean, "Whether or not the user receives a lower price. If a user had an account before the app was created, then they are grandfathered in and receive a lower price until the end of 2019.", null: true
   field :package, Types::Package, "The payment package that the user selected when signing up", null: true
+  field :dogs, [Types::Dog], "The dogs that belong to the user", null: true
 end

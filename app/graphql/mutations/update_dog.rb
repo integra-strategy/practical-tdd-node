@@ -17,6 +17,6 @@ class Mutations::UpdateDog < Mutations::BaseMutation
     id = args[:id]
     dog = Dog.where(id: id).first || NilDog.new
     dog.update(args.except(:id))
-    { dog: dog.attributes, errors: dog.graphql_errors }
+    { dog: dog.to_graphql, errors: dog.graphql_errors }
   end
 end
