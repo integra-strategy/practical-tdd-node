@@ -18,33 +18,4 @@ RSpec.describe "Fetching packages", type: :request do
     GQL
     graphql(query: fetch_packages_query, variables: OpenStruct.new).data.packages
   end
-
-  def create_package(name:)
-    package = {
-      "id"=>"prod_FM9tbBxsZc4sk9",
-      "object"=>"product",
-      "active"=>true,
-      "attributes"=>[],
-      "caption"=>nil,
-      "created"=>1561995495,
-      "deactivate_on"=>[],
-      "description"=>nil,
-      "images"=>[],
-      "livemode"=>false,
-      "metadata"=>{},
-      "name"=> name,
-      "package_dimensions"=>nil,
-      "shippable"=>nil,
-      "statement_descriptor"=>nil,
-      "type"=>"service",
-      "unit_label"=>nil,
-      "updated"=>1561995495,
-      "url"=>nil
-    }
-    stub_request(:get, "https://api.stripe.com/v1/products?limit=10")
-      .to_return(status: 200, body: {
-        data: [package]
-        }.to_json)
-    OpenStruct.new(package)
-  end
 end

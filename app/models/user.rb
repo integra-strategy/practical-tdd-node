@@ -25,6 +25,9 @@ class User < ApplicationRecord
       unless dogs.empty?
         attributes[:dogs] = dogs.as_json
       end
+      if profile_picture.attached?
+        attributes[:profile_picture] = profile_picture
+      end
     end
   end
 end

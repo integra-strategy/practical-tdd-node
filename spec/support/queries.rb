@@ -8,6 +8,9 @@ module Fetch
             dogs {
               id
             }
+            package {
+              id
+            }
           }
         }
       GQL

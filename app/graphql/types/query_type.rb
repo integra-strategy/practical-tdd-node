@@ -22,11 +22,12 @@ module Types
     end
 
     def user_detail(id:)
-      ::User.includes(:dogs).find(id).to_graphql
+      user = ::User.includes(:dogs).find(id)
+      user.to_graphql.merge(package: ::Package.fetch(user.package))
     end
 
     def packages
-      Stripe::Product.list(limit: 10)
+      Stripe::Plan.list(limit: 10)
     end
   end
 end
