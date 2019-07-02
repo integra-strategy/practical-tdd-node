@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Fetching packages", type: :request do
   it "returns packages from Stripe" do
-    WebMock.enable_net_connect!
     package = create_package(
       name: 'Monthly',
       amount: 123,
