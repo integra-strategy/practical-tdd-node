@@ -19,9 +19,8 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :completed, Boolean, COMPLETED_DESCRIPTION, required: false
   argument :profile_picture, String, "The S3 signed ID of the profile picture for the user", required: false
   argument :accepted_terms, Boolean, "Whether or not the user has accepted the terms and conditions", required: false
-  argument :receives_lower_price, Boolean, "Whether or not the user receives a lower price. If a user had an account before the app was created, then they are grandfathered in and receive a lower price until the end of 2019.", required: false
-  argument :package, Types::Package, "The payment package that the user selected when signing up", required: false
   argument :phone_number, String, "10 digit phone number for user", required: false
+  argument :package, ID, "The ID of the package on Stripe", required: false
 
   field :user, Types::User, null: true
 
@@ -30,6 +29,6 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   def resolve(attrs)
     user = User.find(attrs[:id])
     user.update_attributes(attrs.except(:id))
-    { user: user, errors: user.graphql_errors }
+    { user: user.to_graphql, errors: user.graphql_errors }
   end
 end

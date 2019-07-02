@@ -1,11 +1,6 @@
-class Types::Package < Types::BaseEnum
-  DAILY = :DAILY
-  MONTHLY_MANUAL = :MONTHLY_MANUAL
-  MONTHLY_RECURRING = :MONTHLY_RECURRING
-  YEARLY = :YEARLY
-
-  value DAILY, "Daily"
-  value MONTHLY_MANUAL, "Month to month with manual renewal"
-  value MONTHLY_RECURRING, "Month to month with automatic renewal"
-  value YEARLY, "Yearly"
+class Types::Package < Types::BaseObject
+  field :id, ID, "The ID of the package on Stripe", null: false
+  field :name, String, "The name of the package", null: false
+  field :amount, Integer, "The amount of the package", null: false
+  field :description, [String], "An array of strings describing the package meant to be used as bullet points.", null: false
 end
