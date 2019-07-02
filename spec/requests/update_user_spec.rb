@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe "Updating a user", type: :request do
   it "supports updating a user" do
     user = create(:user)
+    filename = 'file.txt'
+    image = create_direct_upload(filename: filename)
+    package = create_package(name: 'Some name')
     variables = OpenStruct.new(
       id: user.id,
       first_name: 'John',
@@ -15,9 +18,10 @@ RSpec.describe "Updating a user", type: :request do
       zip: FFaker::AddressUS.zip_code,
       step: 2,
       completed: true,
-      profile_picture: 'https://some.url.com',
+      profile_picture: image["signed_id"],
       accepted_terms: true,
-      package: Types::Package::DAILY.to_s
+      phone_number: '1234567890',
+      package: package.id
     )
 
     result = graphql(query: update_user_mutation, variables: variables, user: user).data.update_user.user
@@ -32,29 +36,30 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.zip).to eq(variables.zip)
     expect(result.step).to eq(variables.step)
     expect(result.completed).to eq(variables.completed)
-    expect(result.profile_picture).to eq(variables.profile_picture)
+    expect(result.profile_picture.url).to eq("/rails/active_storage/blobs/#{image['signed_id']}/#{filename}")
+    expect(result.profile_picture.name).to eq(filename)
     expect(result.accepted_terms).to eq(variables.accepted_terms)
-    expect(result.package).to eq(variables.package)
+    expect(result.phone_number).to eq(variables.phone_number)
+    expect(result.package.id).to eq(package.id)
   end
 
   it "returns errors" do
     user = create(:user)
     variables = OpenStruct.new(
       id: user.id,
-      phone_number: 'not a phone number',
-      profile_picture: 'invalid url'
+      phone_number: 'not a phone number'
       )
 
     result = graphql(query: update_user_mutation, variables: variables, user: user)
 
     errors = result.data.update_user.errors
-    expect(errors.first).to have_attributes(path: 'profilePicture', message: 'Profile picture must be a valid URL')
+    expect(errors.first).to have_attributes(path: 'phoneNumber', message: 'Phone number must be 10 digits')
   end
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $package: Package) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, package: $package) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $phoneNumber: String, $package: ID) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, phoneNumber: $phoneNumber, package: $package) {
           user {
             firstName
             lastName
@@ -66,10 +71,15 @@ RSpec.describe "Updating a user", type: :request do
             zip
             step
             completed
-            profilePicture
+            profilePicture {
+              url
+              name
+            }
             acceptedTerms
-            receivesLowerPrice
-            package
+            phoneNumber
+            package {
+              id
+            }
           }
           errors {
             path

@@ -26,7 +26,7 @@ RSpec.describe "Sign up", type: :request do
       password: 'password',
       password_confirmation: 'a different password',
       phone_number: 'not a phone number'
-      )
+    )
     create(:user, email: variables.email)
 
     result = graphql(query: sign_up_mutation, variables: variables)
@@ -42,10 +42,14 @@ RSpec.describe "Sign up", type: :request do
       mutation SignUp($email: String!, $password: String!, $passwordConfirmation: String!, $phoneNumber: String, $acceptsSms: Boolean) {
         signUp(email: $email, password: $password, passwordConfirmation: $passwordConfirmation, phoneNumber: $phoneNumber, acceptsSms: $acceptsSms) {
           user {
+            id
             email
             phoneNumber
             acceptsSms
-            profilePicture
+            profilePicture {
+              url
+              name
+            }
             type
           }
           auth {

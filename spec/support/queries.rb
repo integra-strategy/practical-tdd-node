@@ -5,6 +5,14 @@ module Fetch
         query UserDetail($id:ID!) {
           userDetail(id:$id) {
             firstName
+            dogs {
+              id
+            }
+            package {
+              id
+              name
+              amount
+            }
           }
         }
       GQL
