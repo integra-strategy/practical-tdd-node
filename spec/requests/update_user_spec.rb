@@ -58,8 +58,8 @@ RSpec.describe "Updating a user", type: :request do
 
   def update_user_mutation
     <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $receivesLowerPrice: Boolean, $phoneNumber: String, $package: ID) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, receivesLowerPrice: $receivesLowerPrice, phoneNumber: $phoneNumber, package: $package) {
+      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $phoneNumber: String, $package: ID) {
+        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, phoneNumber: $phoneNumber, package: $package) {
           user {
             firstName
             lastName
@@ -76,7 +76,6 @@ RSpec.describe "Updating a user", type: :request do
               name
             }
             acceptedTerms
-            receivesLowerPrice
             phoneNumber
             package {
               id
