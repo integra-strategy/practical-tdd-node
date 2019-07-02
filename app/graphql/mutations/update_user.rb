@@ -29,6 +29,6 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   def resolve(attrs)
     user = User.find(attrs[:id])
     user.update_attributes(attrs.except(:id))
-    { user: user.to_graphql.merge(package: Package.fetch(user.package)), errors: user.graphql_errors }
+    { user: user.to_graphql, errors: user.graphql_errors }
   end
 end

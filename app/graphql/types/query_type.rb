@@ -23,7 +23,7 @@ module Types
 
     def user_detail(id:)
       user = ::User.includes(:dogs).find(id)
-      user.to_graphql.merge(package: ::Package.fetch(user.package))
+      user.to_graphql
     end
 
     def packages

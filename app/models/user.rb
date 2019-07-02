@@ -28,6 +28,9 @@ class User < ApplicationRecord
       if profile_picture.attached?
         attributes[:profile_picture] = profile_picture
       end
+      unless package.nil?
+        attributes[:package] = Package.fetch(package)
+      end
     end
   end
 end
