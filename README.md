@@ -1,7 +1,6 @@
-
 # fetch-api
 
-API for Fetch. Written in Rails with GraphQL. A Staging app that you can experiment with can be found at the following URL: https://rylabs-fetch-api.herokuapp.com/graphql. We're using the [Electron GraphiQL][] app to issue queries/mutations and view documentation.
+API for Fetch. Written in Rails with GraphQL. A Staging app that you can experiment with can be found at the following URL: https://d22nz0zp77qk6c.cloudfront.net/graphql. We're using the [Electron GraphiQL][] app to issue queries/mutations and view documentation.
 
 ## Authentication
 
