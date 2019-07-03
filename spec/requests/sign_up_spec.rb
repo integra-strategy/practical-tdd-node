@@ -27,7 +27,7 @@ RSpec.describe "Sign up", type: :request do
       password_confirmation: 'a different password',
       phone_number: 'not a phone number'
     )
-    create(:user, email: variables.email)
+    create(:member, email: variables.email)
 
     result = graphql(query: sign_up_mutation, variables: variables)
 

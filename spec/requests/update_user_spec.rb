@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Updating a user", type: :request do
   it "supports updating a user" do
-    user = create(:user)
+    user = create(:member)
     filename = 'file.txt'
     image = create_direct_upload(filename: filename)
     package = create_package(name: 'Some name')
@@ -44,11 +44,11 @@ RSpec.describe "Updating a user", type: :request do
   end
 
   it "returns errors" do
-    user = create(:user)
+    user = create(:member)
     variables = OpenStruct.new(
       id: user.id,
       phone_number: 'not a phone number'
-      )
+    )
 
     result = graphql(query: update_user_mutation, variables: variables, user: user)
 

@@ -4,7 +4,7 @@ RSpec.describe "Adding dogs", type: :request do
   it "supports adding multiple dogs at once" do
     filename = "file.txt"
     profile_picture = create_direct_upload(filename: filename)
-    user = create(:user)
+    user = create(:member)
     variables = {
       user_id: user.id,
       profile_picture: profile_picture["signed_id"],
