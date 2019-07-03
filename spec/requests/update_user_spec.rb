@@ -21,10 +21,11 @@ RSpec.describe "Updating a user", type: :request do
       profile_picture: image["signed_id"],
       accepted_terms: true,
       phone_number: '1234567890',
-      package: package.id
+      package: package.id,
+      token: 'some token'
     )
 
-    result = graphql(query: update_user_mutation, variables: variables, user: user).data.update_user.user
+    result = update_user(variables: variables, user: user).user
 
     expect(result.first_name).to eq(variables.first_name)
     expect(result.last_name).to eq(variables.last_name)
@@ -41,6 +42,7 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.accepted_terms).to eq(variables.accepted_terms)
     expect(result.phone_number).to eq(variables.phone_number)
     expect(result.package.id).to eq(package.id)
+    expect(result.token).to eq(variables.token)
   end
 
   it "returns errors" do
@@ -50,16 +52,15 @@ RSpec.describe "Updating a user", type: :request do
       phone_number: 'not a phone number'
       )
 
-    result = graphql(query: update_user_mutation, variables: variables, user: user)
+    results = update_user(variables: variables, user: user).errors
 
-    errors = result.data.update_user.errors
-    expect(errors.first).to have_attributes(path: 'phoneNumber', message: 'Phone number must be 10 digits')
+    expect(results.first).to have_attributes(path: 'phoneNumber', message: 'Phone number must be 10 digits')
   end
 
-  def update_user_mutation
-    <<~GQL
-      mutation UpdateUser($id: ID!, $firstName: String, $lastName: String, $authorizedUser: String, $address: String, $address2: String, $city: String, $state: String, $zip: String, $step: Int, $completed: Boolean, $profilePicture: String, $acceptedTerms: Boolean, $phoneNumber: String, $package: ID) {
-        updateUser(id: $id, firstName: $firstName, lastName: $lastName, authorizedUser: $authorizedUser, address: $address, address2: $address2, city: $city, state: $state, zip: $zip, step: $step, completed: $completed, profilePicture: $profilePicture, acceptedTerms: $acceptedTerms, phoneNumber: $phoneNumber, package: $package) {
+  def update_user(variables:, user:)
+    mutation = <<~GQL
+      mutation UpdateUser($input: UpdateUser) {
+        updateUser(input: $input) {
           user {
             firstName
             lastName
@@ -80,6 +81,7 @@ RSpec.describe "Updating a user", type: :request do
             package {
               id
             }
+            token
           }
           errors {
             path
@@ -88,5 +90,6 @@ RSpec.describe "Updating a user", type: :request do
         }
       }
     GQL
+    graphql(query: mutation, variables: OpenStruct.new(input: variables.as_json["table"]), user: user).data.update_user
   end
 end
