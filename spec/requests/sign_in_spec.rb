@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Sign in", type: :request do
   it "returns an authentication token and the user" do
     variables = OpenStruct.new(email: 'someemail@example.com', password: 'password')
-    user = create(:user, email: variables.email, password: variables.password)
+    user = create(:member, email: variables.email, password: variables.password)
 
     result = graphql(query: sign_in_mutation, variables: variables).data.sign_in
 
@@ -14,7 +14,7 @@ RSpec.describe "Sign in", type: :request do
   it "doesn't allow members to sign in until their account has been confirmed" do
     pending("We have to wait to implement this functionality until FET-101 is implemented. Otherwise, we won't have a way to sign members in.")
     variables = OpenStruct.new(email: 'someemail@example.com', password: 'password')
-    user = build(:user, email: variables.email, password: variables.password, confirmed_at: nil)
+    user = build(:member, email: variables.email, password: variables.password, confirmed_at: nil)
     user.skip_confirmation_notification!
     user.save
 

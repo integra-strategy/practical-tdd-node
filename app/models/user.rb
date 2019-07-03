@@ -33,4 +33,8 @@ class User < ApplicationRecord
       end
     end
   end
+
+  def confirmed
+    !!confirmed_at
+  end
 end

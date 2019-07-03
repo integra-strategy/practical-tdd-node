@@ -24,4 +24,5 @@ class Types::User < Types::BaseObject
   field :accepted_terms, Boolean, "Whether or not the user has accepted the terms and conditions", null: true
   field :package, Types::Package, "The payment package that the user selected when signing up", null: true
   field :dogs, [Types::Dog], "The dogs that belong to the user", null: true
+  field :confirmed, Boolean, "Whether or not the user has been confirmed by an employee", null: true
 end
