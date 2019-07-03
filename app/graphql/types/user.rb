@@ -25,4 +25,5 @@ class Types::User < Types::BaseObject
   field :package, Types::Package, "The payment package that the user selected when signing up", null: true
   field :dogs, [Types::Dog], "The dogs that belong to the user", null: true
   field :token, String, "The token from Stripe that is used to access and work with the user on Stripe", null: true
+  field :confirmed, Boolean, "Whether or not the user has been confirmed by an employee", null: true
 end
