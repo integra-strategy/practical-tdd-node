@@ -17,5 +17,5 @@ class Types::UpdateUser < Types::BaseInputObject
   argument :accepted_terms, Boolean, "Whether or not the user has accepted the terms and conditions", required: false
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :package, ID, "The ID of the package on Stripe", required: false
-  argument :token, String, "The token from Stripe that is used to access and work with the user on Stripe", required: false
+  argument :stripe_card_token, String, "The Stripe ID for the token that represents the user's card on Stripe", required: false
 end

@@ -22,7 +22,7 @@ RSpec.describe "Updating a user", type: :request do
       accepted_terms: true,
       phone_number: '1234567890',
       package: package.id,
-      token: 'some token'
+      stripe_card_token: 'some token'
     )
 
     result = update_user(variables: variables, user: user).user
@@ -42,7 +42,6 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.accepted_terms).to eq(variables.accepted_terms)
     expect(result.phone_number).to eq(variables.phone_number)
     expect(result.package.id).to eq(package.id)
-    expect(result.token).to eq(variables.token)
   end
 
   it "returns errors" do
@@ -81,7 +80,6 @@ RSpec.describe "Updating a user", type: :request do
             package {
               id
             }
-            token
           }
           errors {
             path

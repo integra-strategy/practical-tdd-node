@@ -1,12 +1,12 @@
 FactoryBot.define do
-  factory :stripe_token do
+  factory :stripe_card_token do
     number { '4242424242424242' }
     exp_month { 7 }
     exp_year { 2020 }
     cvc { '314' }
   end
 
-  class StripeToken
+  class StripeCardToken
     attr_accessor :number, :exp_month, :exp_year, :cvc
 
     def save!

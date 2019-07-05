@@ -51,13 +51,13 @@ RSpec.describe "Confirming a member", type: :request do
   def create_context(card_number: nil)
     plan = create(:stripe_plan)
     token = create_card(card_number)
-    member = create(:member, :with_name, unconfirmed: true, package: plan.id, token: token.id)
+    member = create(:member, :with_name, unconfirmed: true, package: plan.id, stripe_card_token: token.id)
     employee = create(:employee)
     OpenStruct.new(member: member, employee: employee, plan: plan)
   end
 
   def create_card(card_number)
-    return create(:stripe_token, number: card_number) if card_number
-    create(:stripe_token)
+    return create(:stripe_card_token, number: card_number) if card_number
+    create(:stripe_card_token)
   end
 end
