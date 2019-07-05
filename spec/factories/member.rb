@@ -9,10 +9,10 @@ FactoryBot.define do
       unconfirmed { true }
     end
 
-    before(:create) do |user, evaluator|
+    before(:create) do |member, evaluator|
       if evaluator.unconfirmed
-        user.skip_confirmation_notification!
-        user.confirmed_at = nil
+        member.skip_confirmation_notification!
+        member.confirmed_at = nil
       end
     end
 

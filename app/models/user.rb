@@ -31,6 +31,7 @@ class User < ApplicationRecord
       unless package.nil?
         attributes[:package] = Package.fetch(package)
       end
+      attributes[:subscription_active] = subscription_active?
     end
   end
 
@@ -40,5 +41,9 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def subscription_active?
+    true
   end
 end

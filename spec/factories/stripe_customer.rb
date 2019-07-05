@@ -7,5 +7,9 @@ FactoryBot.define do
 
   class StripeCustomer
     attr_accessor :id
+
+    def save!
+      Stripe::Customer.create(id: id)
+    end
   end
 end
