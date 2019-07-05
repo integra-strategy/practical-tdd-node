@@ -70,6 +70,7 @@ group :test do
   # Generate test fixtures
   gem 'factory_bot_rails'
   gem "webmock", "~> 3.6"
+  gem "stripe-ruby-mock", "~> 2.5", require: 'stripe_mock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

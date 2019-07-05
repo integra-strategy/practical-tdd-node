@@ -15,5 +15,15 @@ FactoryBot.define do
         user.confirmed_at = nil
       end
     end
+
+    trait :with_name do
+      sequence :first_name do |n|
+        "John#{n}"
+      end
+
+      sequence :last_name do |n|
+        "Doe#{n}"
+      end
+    end
   end
 end

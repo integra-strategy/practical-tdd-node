@@ -5,7 +5,7 @@ RSpec.describe "Updating a user", type: :request do
     user = create(:member)
     filename = 'file.txt'
     image = create_direct_upload(filename: filename)
-    package = create_package(name: 'Some name')
+    package = create(:stripe_plan, name: 'Some name')
     variables = OpenStruct.new(
       id: user.id,
       first_name: 'John',

@@ -4,11 +4,12 @@ class Mutations::ConfirmMember < Mutations::BaseMutation
   field :user, Types::User, null: true
 
   def resolve(input:)
-    user = Member.find(input.to_h[:id])
-    user.tap do |u|
-      u.skip_confirmation_notification!
-      u.confirm
-    end
-    { user: user }
+    member = Member.find(input.to_h[:id])
+    member.skip_confirmation_notification!
+    member.confirm
+    customer = Customer.create(member)
+    package = Package.fetch(member.package)
+    Subscription.create(customer: customer, package: package)
+    { user: member }
   end
 end
