@@ -52,7 +52,7 @@ class Package
           "Fee Taken at Park",
           "Perfect for the Out of Towner"
         ].to_json
-        }
-      })
+      }
+    })
   end
 end

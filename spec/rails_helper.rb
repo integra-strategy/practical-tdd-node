@@ -67,4 +67,10 @@ RSpec.configure do |config|
   config.include Fetch::Mutations
   config.include Fetch::Queries
   config.include Fetch::FactoryMethods
+  config.before(:suite) do
+    StripeMock.start
+  end
+  config.after(:suite) do
+    StripeMock.stop
+  end
 end

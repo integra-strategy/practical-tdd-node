@@ -25,4 +25,5 @@ class Types::User < Types::BaseObject
   field :package, Types::Package, "The payment package that the user selected when signing up", null: true
   field :dogs, [Types::Dog], "The dogs that belong to the user", null: true
   field :confirmed, Boolean, "Whether or not the user has been confirmed by an employee", null: true
+  field :subscription_active, Boolean, "Whether or not the member's subscription is active", null: true
 end
