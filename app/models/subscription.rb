@@ -7,14 +7,18 @@ class Subscription < SimpleDelegator
   end
 
   def self.create(customer:, package:)
-    new Stripe::Subscription.create({
+    attrs = {
       customer: customer.id,
       items: [
         {
           plan: package.id,
         },
-      ],
-    })
+      ]
+    }
+    if package.one_time_payment_type?
+      attrs[:cancel_at_period_end] = true
+    end
+    new Stripe::Subscription.create(attrs)
   rescue Stripe::CardError => e
     new(InvalidStripeSubscription.new).tap do |s|
       s.add_error(:card, e.message)

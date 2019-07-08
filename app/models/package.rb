@@ -31,6 +31,10 @@ class Package
     JSON.parse(metadata[:description])
   end
 
+  def one_time_payment_type?
+    ['Daily', 'Month-to-Month'].include?(name)
+  end
+
   private
 
   def metadata
