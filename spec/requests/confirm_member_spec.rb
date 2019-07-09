@@ -25,10 +25,10 @@ RSpec.describe "Confirming a member", type: :request do
   # To keep all of the logic the same, we're handling daily and month-to-month subscriptions
   # just like monthly and yearly subscriptions, but just setting them to cancel automatically
   # at the end of their period.
-  it "sets the daily and month-to-month subscriptions to cancel at the end of the current period" do
+  it "sets 1 time charge subscriptions to cancel at the end of the current period" do
     # The Stripe Ruby mock doesn't support the cancel_at_period_end parameter yet.
     allow(Stripe::Subscription).to receive(:create)
-    context = create_context(plan_name: 'Daily')
+    context = create_context(one_time_charge: true)
     member = context.member
 
     result = confirm_member(member, context.employee).user
@@ -65,8 +65,8 @@ RSpec.describe "Confirming a member", type: :request do
     graphql(query: mutation, variables: variables, user: employee).data.confirm_member
   end
 
-  def create_context(card_number: nil, plan_name: build(:stripe_plan).name)
-    plan = create(:stripe_plan, name: plan_name)
+  def create_context(card_number: nil, one_time_charge: build(:stripe_plan).one_time_charge)
+    plan = create(:stripe_plan, one_time_charge: one_time_charge)
     token = create_card(card_number)
     member = create(:member, :with_name, unconfirmed: true, package: plan.id, stripe_card_token: token.id)
     employee = create(:employee)

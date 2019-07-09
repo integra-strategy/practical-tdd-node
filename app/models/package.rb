@@ -1,6 +1,4 @@
 class Package
-  DAILY_DISPLAY_NAME = 'Daily'
-
   def self.fetch(id)
     return EmptyPackage.new if id.nil?
     new Stripe::Plan.retrieve(id)
@@ -31,7 +29,7 @@ class Package
   end
 
   def one_time_payment_type?
-    ['Daily', 'Month-to-Month'].include?(name)
+    metadata[:one_time_charge] == 'true'
   end
 
   private

@@ -12,7 +12,7 @@ FactoryBot.define do
   end
 
   class StripePlan
-    attr_accessor :id, :product, :amount, :currency, :interval, :name, :description
+    attr_accessor :id, :product, :amount, :currency, :interval, :name, :description, :one_time_charge
 
     def save!
       Stripe::Plan.create(
@@ -21,7 +21,7 @@ FactoryBot.define do
         amount: amount,
         currency: currency,
         interval: interval,
-        metadata: { display_name: name, description: description.to_json }
+        metadata: { display_name: name, description: description.to_json, one_time_charge: one_time_charge.to_s }
       )
     end
   end
