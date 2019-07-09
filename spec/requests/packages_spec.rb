@@ -9,12 +9,11 @@ RSpec.describe "Fetching packages", type: :request do
       description: ['Some description']
     )
 
-    first_package = fetch_packages.first
-    second_package = fetch_packages.second
-    expect(first_package.name).to eq(Package::DAILY_DISPLAY_NAME)
-    expect(second_package.name).to eq(package.name)
-    expect(second_package.amount).to eq(package.amount)
-    expect(second_package.description).to eq(package.description)
+    result = fetch_packages.first
+
+    expect(result.name).to eq(package.name)
+    expect(result.amount).to eq(package.amount)
+    expect(result.description).to eq(package.description)
   end
 
   def fetch_packages
