@@ -13,6 +13,7 @@ module Fetch
               name
               amount
             }
+            subscriptionActive
           }
         }
       GQL

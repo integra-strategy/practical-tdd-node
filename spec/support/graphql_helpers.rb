@@ -1,6 +1,6 @@
 module Fetch
   module GraphQlHelpers
-    def graphql(query:, variables: { "table": {} }, user: create(:user), throw_errors: true)
+    def graphql(query:, variables: { "table": {} }, user: create(:member), throw_errors: true)
       formatted_variables = variables.as_json["table"].deep_transform_keys { |k| k.camelcase(:lower) }
       user.ensure_authentication_token!
       headers = { "Authorization": "Bearer #{user.authentication_token}", "Accept": "application/json", "CONTENT_TYPE": "application/json" }

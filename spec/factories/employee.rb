@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :user do
+  factory :employee do
     sequence :email do |n|
-      "user#{n}@example.com"
+      "employee#{n}@example.com"
     end
     confirmed_at { DateTime.now }
   end

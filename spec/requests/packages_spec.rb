@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "Fetching packages", type: :request do
   it "returns packages from Stripe" do
-    package = create_package(
+    package = create(
+      :stripe_plan,
       name: 'Monthly',
       amount: 123,
       description: ['Some description']
     )
+
     result = fetch_packages.first
 
     expect(result.name).to eq(package.name)

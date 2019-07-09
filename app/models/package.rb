@@ -28,6 +28,10 @@ class Package
     JSON.parse(metadata[:description])
   end
 
+  def one_time_payment_type?
+    metadata[:one_time_charge] == 'true'
+  end
+
   private
 
   def metadata
