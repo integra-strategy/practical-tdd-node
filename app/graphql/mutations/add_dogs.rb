@@ -2,7 +2,7 @@ class Mutations::AddDogs < Mutations::BaseMutation
 
   description "Adds dogs for a user"
 
-  argument :input, [Types::CreateDog], required: true
+  argument :input, [Inputs::CreateDog], required: true
 
   field :dogs, [Types::Dog], null: true
 

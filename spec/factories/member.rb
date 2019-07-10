@@ -25,5 +25,9 @@ FactoryBot.define do
         "Doe#{n}"
       end
     end
+
+    trait :with_phone_number do
+      phone_number { 1234567890 }
+    end
   end
 end
