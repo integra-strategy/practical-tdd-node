@@ -4,6 +4,19 @@ class Mutations::SubmitVerificationCode < Mutations::BaseMutation
   field :errors, [Types::UserError], null: false
 
   def resolve(input:)
-    {errors: []}
+    member = Member.find_by(phone_number: input.phone_number)
+    errors = get_errors(member, input)
+    unless errors.length > 0
+      member.update(verification_code: nil)
+    end
+    {errors: errors}
+  end
+
+  def get_errors(member, input)
+    return [] if member.verification_code == input[:verification_code]
+    [{
+      path: 'verification_code',
+      message: "Verification code doesn't match"
+    }]
   end
 end
