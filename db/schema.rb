@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_175441) do
+ActiveRecord::Schema.define(version: 2019_07_10_205334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2019_07_10_175441) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.text "unconfirmed_email"
-    t.string "token"
+    t.string "stripe_card_token"
     t.string "stripe_id"
     t.integer "verification_code"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
