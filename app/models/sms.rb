@@ -13,7 +13,7 @@ class Sms
   rescue Twilio::REST::RestError => e
     Rails.logger.debug("Twilio request failure. Error on next line.")
     Rails.logger.debug(e.backtrace)
-    @errors << { path: 'check_in', message: 'There was a problem checking-in. Please see an employee.' }
+    @errors << { path: 'checkIn', message: 'There was a problem checking-in. Please see an employee.' }
   end
 
   def successful?

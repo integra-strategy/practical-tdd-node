@@ -5,7 +5,7 @@ class Mutations::SendVerificationCode < Mutations::BaseMutation
 
   def resolve(input:)
     member = Member.find_by(phone_number: input[:phone_number])
-    unless member.confirmed?
+    unless member.confirmed? && member.subscription_active?
       return { errors: [{ path: 'checkIn', message: "There was a problem checking-in. Please see an employee." }] }
     end
     verification_code = rand(1000..9999)

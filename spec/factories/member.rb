@@ -7,12 +7,25 @@ FactoryBot.define do
 
     transient do
       unconfirmed { false }
+      set_subscription_active { true }
+      create_subscription { false }
     end
 
     before(:create) do |member, evaluator|
       if evaluator.unconfirmed
         member.skip_confirmation_notification!
         member.confirmed_at = nil
+      end
+    end
+
+    after(:create) do |member, evaluator|
+      if evaluator.create_subscription
+        plan = create(:stripe_plan)
+        token = create(:stripe_card_token)
+        member.update(package: plan.id, stripe_card_token: token.id)
+        customer = Customer.create(member)
+        package = Package.fetch(member.package)
+        Subscription.create(customer: customer, package: package)
       end
     end
 
