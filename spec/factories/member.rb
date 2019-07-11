@@ -6,7 +6,7 @@ FactoryBot.define do
     confirmed_at { DateTime.now }
 
     transient do
-      unconfirmed { true }
+      unconfirmed { false }
     end
 
     before(:create) do |member, evaluator|

@@ -39,6 +39,17 @@ RSpec.describe "SMS checkin", type: :request do
     expect(member.verification_code).to be_nil
   end
 
+  it "returns an error when the member hasn't been confirmed" do
+    stub_sms
+    member = create(:member, :with_phone_number, unconfirmed: true)
+    result = send_verification_code(member)
+
+    error = result.errors.first
+    expect(error.path).to eq('checkIn')
+    expect(error.message).to eq("There was a problem checking-in. Please see an employee.")
+    expect(member.verification_code).to be_nil
+  end
+
   def send_verification_code(member)
     mutation = <<~GQL
       mutation SendVerificationCode($input: SendVerificationCode!) {
