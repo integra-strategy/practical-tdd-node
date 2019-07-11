@@ -2,13 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "SMS checkin", type: :request do
   it "checks a member in" do
-    sms_double = stub_sms
-    member = create(:member, phone_number: '8138989539')
+    stub_sms
+    member = create(:member, :with_phone_number)
 
     send_verification_code(member)
     expect(member.verification_code).not_to be_nil
-    expect(sms_double).to have_received(:send_sms).
-      with({ body: member.verification_code, to: member.phone_number })
 
     result = submit_verification_code(member)
     expect(result.errors.count).to eq(0)
@@ -16,8 +14,8 @@ RSpec.describe "SMS checkin", type: :request do
   end
 
   it "returns an error when the verification code doesn't match" do
-    sms_double = stub_sms
-    member = create(:member, phone_number: '8138989539')
+    stub_sms
+    member = create(:member, :with_phone_number)
     send_verification_code(member)
 
     member.verification_code = member.verification_code + 1
@@ -30,7 +28,7 @@ RSpec.describe "SMS checkin", type: :request do
   end
 
   it "returns an error when the Twilio request fails" do
-    stub_sms_via_webmock
+    stub_sms(status: 400)
     member = build(:member, :with_phone_number)
     member.save(validate: false)
     result = send_verification_code(member)
@@ -38,6 +36,7 @@ RSpec.describe "SMS checkin", type: :request do
     error = result.errors.first
     expect(error.path).to eq('check_in')
     expect(error.message).to eq("There was a problem checking-in. Please see an employee.")
+    expect(member.verification_code).to be_nil
   end
 
   def send_verification_code(member)
@@ -86,22 +85,14 @@ RSpec.describe "SMS checkin", type: :request do
     result.data.submit_verification_code
   end
 
-  def stub_sms
-    Sms.new.tap do |sms_double|
-      allow(Sms).to receive(:new) { sms_double }
-      allow(sms_double).to receive(:send_sms)
-      allow(sms_double).to receive(:errors).and_call_original
-    end
-  end
-
-  def stub_sms_via_webmock
-    stub_twilio_request.to_return(status: 400, body: "", headers: {})
+  def stub_sms(status: 200)
+    stub_twilio_request.to_return(status: status, body: "", headers: {})
   end
 
   def stub_twilio_request
     stub_request(:post, "#{ENV['TWILIO_API_URL']}/Messages.json").
       with(
-        body: {"Body"=>/\d{4}/, "From"=> ENV['TWILIO_PHONE_NUMBER'], "To"=>/\d+/},
+        body: { "Body"=> nil, "From"=> ENV['TWILIO_PHONE_NUMBER'], "To"=>/\d+/ },
       )
   end
 end

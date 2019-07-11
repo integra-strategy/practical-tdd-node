@@ -15,4 +15,8 @@ class Sms
     Rails.logger.debug(e.backtrace)
     @errors << { path: 'check_in', message: 'There was a problem checking-in. Please see an employee.' }
   end
+
+  def successful?
+    errors.empty?
+  end
 end
