@@ -29,6 +29,17 @@ RSpec.describe "SMS checkin", type: :request do
     expect(member.verification_code).not_to be_nil
   end
 
+  it "returns an error when the Twilio request fails" do
+    stub_sms_via_webmock
+    member = build(:member, :with_phone_number)
+    member.save(validate: false)
+    result = send_verification_code(member)
+
+    error = result.errors.first
+    expect(error.path).to eq('check_in')
+    expect(error.message).to eq("There was a problem checking-in. Please see an employee.")
+  end
+
   def send_verification_code(member)
     mutation = <<~GQL
       mutation SendVerificationCode($input: SendVerificationCode!) {
@@ -40,9 +51,17 @@ RSpec.describe "SMS checkin", type: :request do
         }
       }
     GQL
-    graphql(query: mutation, variables: OpenStruct.new(input: {phone_number: member.phone_number}), user: member).tap do
-      member.reload
-    end
+    result = graphql(
+      query: mutation,
+      variables: OpenStruct.new(
+        input: {
+          phone_number: member.phone_number
+          }
+        ),
+      user: member
+    )
+    member.reload
+    result.data.send_verification_code
   end
 
   def submit_verification_code(member)
@@ -68,8 +87,21 @@ RSpec.describe "SMS checkin", type: :request do
   end
 
   def stub_sms
-    instance_double(Sms, send_sms: true).tap do |sms_double|
+    Sms.new.tap do |sms_double|
       allow(Sms).to receive(:new) { sms_double }
+      allow(sms_double).to receive(:send_sms)
+      allow(sms_double).to receive(:errors).and_call_original
     end
+  end
+
+  def stub_sms_via_webmock
+    stub_twilio_request.to_return(status: 400, body: "", headers: {})
+  end
+
+  def stub_twilio_request
+    stub_request(:post, "#{ENV['TWILIO_API_URL']}/Messages.json").
+      with(
+        body: {"Body"=>/\d{4}/, "From"=> ENV['TWILIO_PHONE_NUMBER'], "To"=>/\d+/},
+      )
   end
 end

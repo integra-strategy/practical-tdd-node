@@ -7,10 +7,11 @@ class Mutations::SendVerificationCode < Mutations::BaseMutation
     member = Member.find_by(phone_number: input[:phone_number])
     verification_code = rand(1000..9999)
     member.update(verification_code: verification_code)
-    Sms.new.send_sms(
+    sms = Sms.new
+    sms.send_sms(
       to: member.phone_number,
       body: member.verification_code
     )
-    {errors: []}
+    { errors: sms.errors }
   end
 end
