@@ -61,6 +61,18 @@ RSpec.describe "SMS checkin", type: :request do
     expect(member.verification_code).to be_nil
   end
 
+  it "returns an error when the user has a dog without outdated vaccine records" do
+    stub_sms
+    member = create(:member, :with_phone_number, create_subscription: true)
+    dog = create(:dog, user: member, rabies: Time.now - 1.day)
+    result = send_verification_code(member)
+
+    error = result.errors.first
+    expect(error.path).to eq('checkIn')
+    expect(error.message).to eq("There was a problem checking-in. Please see an employee.")
+    expect(member.verification_code).to be_nil
+  end
+
   def send_verification_code(member)
     mutation = <<~GQL
       mutation SendVerificationCode($input: SendVerificationCode!) {

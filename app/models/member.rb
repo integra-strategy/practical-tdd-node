@@ -7,4 +7,13 @@ class Member < User
     Rails.logger.error(e.backtrace)
     false
   end
+
+  def dogs_vaccinations_current?
+    dogs.all? do |dog|
+      dog.rabies > Time.zone.now &&
+      dog.dhlpp > Time.zone.now &&
+      dog.leptospirosis > Time.zone.now &&
+      dog.bordetella > Time.zone.now
+    end
+  end
 end
