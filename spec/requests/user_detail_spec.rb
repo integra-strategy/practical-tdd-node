@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "User detail", type: :request do
   it "returns details about the user" do
     plan = create(:stripe_plan)
-    user = create(:member, first_name: "John", package: plan.id)
+    user = create(:member, first_name: "John", package: plan.id, create_subscription: false)
     dog = create(:dog, user: user)
     variables = OpenStruct.new(id: user.id)
 

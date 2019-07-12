@@ -1,4 +1,4 @@
-class Types::UpdateUser < Types::BaseInputObject
+class Inputs::UpdateUser < Inputs::BaseInputObject
   STEP_DESCRIPTION = "The step of the sign up process that the user has completed. This is used to track what screen the user should be taken back to if they stop the sign up process and then come back to it."
   COMPLETED_DESCRIPTION = "Whether or not the user has completed the sign up process."
 
@@ -18,4 +18,5 @@ class Types::UpdateUser < Types::BaseInputObject
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :package, ID, "The ID of the package on Stripe", required: false
   argument :stripe_card_token, String, "The Stripe ID for the token that represents the user's card on Stripe", required: false
+  argument :notes, String, "Notes for the user's account", required: false
 end

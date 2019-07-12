@@ -92,3 +92,5 @@ gem "rack-cors", "~> 1.0"
 gem "aws-sdk-s3", "~> 1.43"
 
 gem "stripe", "~> 4.21"
+
+gem "twilio-ruby", "~> 5.25"

@@ -6,13 +6,26 @@ FactoryBot.define do
     confirmed_at { DateTime.now }
 
     transient do
-      unconfirmed { true }
+      unconfirmed { false }
+      set_subscription_active { true }
+      create_subscription { false }
     end
 
     before(:create) do |member, evaluator|
       if evaluator.unconfirmed
         member.skip_confirmation_notification!
         member.confirmed_at = nil
+      end
+    end
+
+    after(:create) do |member, evaluator|
+      if evaluator.create_subscription
+        plan = create(:stripe_plan)
+        token = create(:stripe_card_token)
+        member.update(package: plan.id, stripe_card_token: token.id)
+        customer = Customer.create(member)
+        package = Package.fetch(member.package)
+        Subscription.create(customer: customer, package: package)
       end
     end
 
@@ -24,6 +37,10 @@ FactoryBot.define do
       sequence :last_name do |n|
         "Doe#{n}"
       end
+    end
+
+    trait :with_phone_number do
+      phone_number { 1234567890 }
     end
   end
 end
