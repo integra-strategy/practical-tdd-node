@@ -18,4 +18,5 @@ class Inputs::UpdateUser < Inputs::BaseInputObject
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :package, ID, "The ID of the package on Stripe", required: false
   argument :stripe_card_token, String, "The Stripe ID for the token that represents the user's card on Stripe", required: false
+  argument :notes, String, "Notes for the user's account", required: false
 end
