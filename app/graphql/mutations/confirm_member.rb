@@ -1,5 +1,5 @@
 class Mutations::ConfirmMember < Mutations::BaseMutation
-  argument :input, Types::ConfirmMember, required: true
+  argument :input, Inputs::ConfirmMember, required: true
 
   field :user, Types::User, null: true
   field :errors, [Types::UserError], null: false

@@ -1,4 +1,4 @@
-class Types::UpdateUser < Types::BaseInputObject
+class Inputs::UpdateUser < Inputs::BaseInputObject
   STEP_DESCRIPTION = "The step of the sign up process that the user has completed. This is used to track what screen the user should be taken back to if they stop the sign up process and then come back to it."
   COMPLETED_DESCRIPTION = "Whether or not the user has completed the sign up process."
 

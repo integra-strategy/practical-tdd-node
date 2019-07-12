@@ -6,5 +6,7 @@ module Types
     field :add_dogs, mutation: Mutations::AddDogs
     field :update_dog, mutation: Mutations::UpdateDog
     field :confirm_member, mutation: Mutations::ConfirmMember
+    field :send_verification_code, mutation: Mutations::SendVerificationCode
+    field :submit_verification_code, mutation: Mutations::SubmitVerificationCode
   end
 end

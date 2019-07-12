@@ -2,6 +2,10 @@
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 ENV['STRIPE_API_KEY'] ||= 'somekey'
+ENV['TWILIO_ACCOUNT_SID'] = 'someid'
+ENV['TWILIO_AUTH_TOKEN'] = 'sometoken'
+ENV['TWILIO_PHONE_NUMBER'] = '+1234567890'
+ENV['TWILIO_API_URL'] = "https://api.twilio.com/2010-04-01/Accounts/#{ENV['TWILIO_ACCOUNT_SID']}"
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
