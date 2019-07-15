@@ -1,6 +1,6 @@
 # fetch-api
 
-API for Fetch. Written in Rails with GraphQL. A Staging app that you can experiment with can be found at the following URL: `http://fetch-backend-staging.us-east-1.elasticbeanstalk.com/graphql`. For direct uploads, use the URL without the `/graphql` path: `http://fetch-backend-staging.us-east-1.elasticbeanstalk.com/`. We're using the [Electron GraphiQL][] app to issue queries/mutations and view documentation.
+API for Fetch. Written in Rails with GraphQL. A Staging app that you can experiment with can be found at the following URL: `http://localhost:3000/graphql`. For direct uploads, use the URL without the `/graphql` path: `http://localhost:3000/`. We're using the [Electron GraphiQL][] app to issue queries/mutations and view documentation.
 
 ## Authentication
 
@@ -37,6 +37,14 @@ Password: password
 
 **Employee**
 Username: employee@example.com
+Password: password
+
+**Manager**
+Username: manager@example.com
+Password: password
+
+**Admin**
+Username: admin@example.com
 Password: password
 
 ## Project Structure
