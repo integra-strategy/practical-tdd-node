@@ -15,3 +15,21 @@ employee = Employee.new(
 )
 employee.skip_confirmation!
 employee.save
+
+manager = Manager.new(
+  first_name: 'Jim',
+  last_name: 'Doe',
+  email: 'manager@example.com',
+  password: 'password'
+)
+manager.skip_confirmation!
+manager.save
+
+admin = Admin.new(
+  first_name: 'Terra',
+  last_name: 'Doe',
+  email: 'admin@example.com',
+  password: 'password'
+)
+admin.skip_confirmation!
+admin.save
