@@ -1,0 +1,9 @@
+{
+  "name": "practical-tdd-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/integra-strategy/practical-tdd-node",
+  "author": "Don Schrimsher",
+  "license": "MIT",
+  "private": false
+}
