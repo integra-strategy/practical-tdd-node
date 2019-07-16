@@ -5,5 +5,8 @@
   "repository": "https://github.com/integra-strategy/practical-tdd-node",
   "author": "Don Schrimsher",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
