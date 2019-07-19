@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Sign up", type: :request do
-  it "supports signing up with basic info" do
+RSpec.describe "Create manager", type: :request do
+  it "supports creating a manager" do
     variables = {
       email: 'someemail@example.com',
       password: 'password'
