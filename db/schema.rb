@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_211325) do
+ActiveRecord::Schema.define(version: 2019_07_18_213926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_211325) do
     t.integer "step"
     t.boolean "completed"
     t.boolean "accepted_terms"
-    t.string "package"
+    t.string "package_id"
     t.text "authorized_user"
     t.text "type"
     t.string "confirmation_token"

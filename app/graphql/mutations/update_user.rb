@@ -11,6 +11,6 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   def resolve(input:)
     user = User.find(input[:id])
     user.update_attributes(input.to_h.except(:id))
-    { user: user.to_graphql, errors: user.graphql_errors }
+    { user: user, errors: user.graphql_errors }
   end
 end

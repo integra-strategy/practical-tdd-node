@@ -22,12 +22,18 @@ module Types
     end
 
     def user_detail(id:)
-      user = ::User.includes(:dogs).find(id)
-      user.to_graphql
+      user = ::User.find(id)
+      cast_user_by_type(user).includes(:dogs).find(id)
     end
 
     def packages
       ::Package.fetch_all
+    end
+
+    private
+
+    def cast_user_by_type(user)
+      Object.const_get(user.type.capitalize)
     end
   end
 end

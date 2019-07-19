@@ -22,9 +22,9 @@ FactoryBot.define do
       if evaluator.create_subscription
         plan = create(:stripe_plan)
         token = create(:stripe_card_token)
-        member.update(package: plan.id, stripe_card_token: token.id)
+        member.update(package_id: plan.id, stripe_card_token: token.id)
         customer = Customer.create(member)
-        package = Package.fetch(member.package)
+        package = Package.fetch(member.package_id)
         Subscription.create(customer: customer, package: package)
       end
     end

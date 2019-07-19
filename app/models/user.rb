@@ -31,7 +31,6 @@ class User < ApplicationRecord
       unless package.nil?
         attributes[:package] = Package.fetch(package)
       end
-      attributes[:subscription_active] = subscription_active?
     end
   end
 
@@ -45,5 +44,10 @@ class User < ApplicationRecord
 
   def subscription_active?
     true
+  end
+  alias_method :subscription_active, :subscription_active?
+
+  def package
+    @package ||= Package.fetch(package_id)
   end
 end

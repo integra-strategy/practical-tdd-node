@@ -7,6 +7,10 @@ module Fetch
             firstName
             dogs {
               id
+              vaccinationPictures {
+                name
+                url
+              }
             }
             package {
               id

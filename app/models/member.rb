@@ -7,6 +7,7 @@ class Member < User
     Rails.logger.error(e.backtrace)
     false
   end
+  alias_method :subscription_active, :subscription_active?
 
   def dogs_vaccinations_current?
     dogs.all? do |dog|

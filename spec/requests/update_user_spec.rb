@@ -21,7 +21,7 @@ RSpec.describe "Updating a user", type: :request do
       profile_picture: image["signed_id"],
       accepted_terms: true,
       phone_number: '1234567890',
-      package: package.id,
+      package_id: package.id,
       stripe_card_token: 'some token',
       notes: 'Some note'
     )
