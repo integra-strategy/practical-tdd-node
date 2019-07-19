@@ -51,4 +51,8 @@ class User < ApplicationRecord
   def package
     @package ||= Package.fetch(package_id)
   end
+
+  def active?
+    !deactivated?
+  end
 end
