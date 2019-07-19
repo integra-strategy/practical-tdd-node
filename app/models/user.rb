@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one_attached :profile_picture
   has_many :dogs
+  belongs_to :park
   devise :database_authenticatable, :token_authenticatable, :confirmable
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number

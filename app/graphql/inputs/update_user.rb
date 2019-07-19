@@ -19,4 +19,5 @@ class Inputs::UpdateUser < Inputs::BaseInputObject
   argument :package_id, ID, "The ID of the package on Stripe", required: false
   argument :stripe_card_token, String, "The Stripe ID for the token that represents the user's card on Stripe", required: false
   argument :notes, String, "Notes for the user's account", required: false
+  argument :park_id, ID, "The ID of the park that the user belongs to", required: false
 end
