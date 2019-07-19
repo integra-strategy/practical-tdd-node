@@ -20,4 +20,6 @@ class Inputs::UpdateUser < Inputs::BaseInputObject
   argument :stripe_card_token, String, "The Stripe ID for the token that represents the user's card on Stripe", required: false
   argument :notes, String, "Notes for the user's account", required: false
   argument :park_id, ID, "The ID of the park that the user belongs to", required: false
+  argument :positions, [String], "The positions that the employee or manager works at the park", required: false
+  argument :hire_date, String, "The date that the user was hired", required: false
 end
