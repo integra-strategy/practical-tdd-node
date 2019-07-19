@@ -4,5 +4,6 @@ FactoryBot.define do
       "employee#{n}@example.com"
     end
     confirmed_at { DateTime.now }
+    park { Park.first || create(:park) }
   end
 end

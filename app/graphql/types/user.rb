@@ -27,4 +27,8 @@ class Types::User < Types::BaseObject
   field :confirmed, Boolean, "Whether or not the user has been confirmed by an employee", null: true
   field :subscription_active, Boolean, "Whether or not the member's subscription is active", null: true
   field :notes, String, "Notes for the user's account", null: true
+  field :park, Types::Park, "The park that the user belongs to", null: true
+  field :positions, [String], "The positions that the employee or manager works at the park", null: true
+  field :hire_date, String, "The date that the user was hired", null: true
+  field :deactivated, Boolean, "Whether or not the user has been deactivated", null: true
 end

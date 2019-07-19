@@ -8,5 +8,6 @@ module Types
     field :confirm_member, mutation: Mutations::ConfirmMember
     field :send_verification_code, mutation: Mutations::SendVerificationCode
     field :submit_verification_code, mutation: Mutations::SubmitVerificationCode
+    field :create_manager, mutation: Mutations::CreateManager
   end
 end

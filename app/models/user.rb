@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one_attached :profile_picture
   has_many :dogs
+  belongs_to :park
   devise :database_authenticatable, :token_authenticatable, :confirmable
   validates_uniqueness_of :email, message: 'An account already exists for this email'
   validate :ten_digit_phone_number
@@ -49,5 +50,17 @@ class User < ApplicationRecord
 
   def package
     @package ||= Package.fetch(package_id)
+  end
+
+  def active?
+    !deactivated?
+  end
+
+  def cast(includes: [])
+    user_class = Object.const_get(type.capitalize)
+    unless (includes.empty?)
+      user_class.includes(includes)
+    end
+    user_class.find(id)
   end
 end

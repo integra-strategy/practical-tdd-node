@@ -22,18 +22,11 @@ module Types
     end
 
     def user_detail(id:)
-      user = ::User.find(id)
-      cast_user_by_type(user).includes(:dogs).find(id)
+      user = ::User.find(id).cast(includes: [:dogs])
     end
 
     def packages
       ::Package.fetch_all
-    end
-
-    private
-
-    def cast_user_by_type(user)
-      Object.const_get(user.type.capitalize)
     end
   end
 end

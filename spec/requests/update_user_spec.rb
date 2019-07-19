@@ -6,6 +6,10 @@ RSpec.describe "Updating a user", type: :request do
     filename = 'file.txt'
     image = create_direct_upload(filename: filename)
     package = create(:stripe_plan, name: 'Some name')
+    park = create(:park)
+    positions = ['Cashier']
+    hire_date = Time.zone.now
+    deactivated = true
     variables = OpenStruct.new(
       id: user.id,
       first_name: 'John',
@@ -23,7 +27,11 @@ RSpec.describe "Updating a user", type: :request do
       phone_number: '1234567890',
       package_id: package.id,
       stripe_card_token: 'some token',
-      notes: 'Some note'
+      notes: 'Some note',
+      park_id: park.id,
+      positions: positions,
+      hire_date: hire_date.iso8601,
+      deactivated: deactivated
     )
 
     result = update_user(variables: variables, user: user).user
@@ -44,6 +52,10 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.phone_number).to eq(variables.phone_number)
     expect(result.package.id).to eq(package.id)
     expect(result.notes).to eq(variables.notes)
+    expect(result.park.id).to eq(park.id.to_s)
+    expect(result.positions).to eq(positions)
+    expect(result.hire_date).to include(hire_date.strftime('%Y-%m-%d %H:%M:%S'))
+    expect(result.deactivated).to eq(true)
   end
 
   it "returns errors" do
@@ -83,6 +95,12 @@ RSpec.describe "Updating a user", type: :request do
               id
             }
             notes
+            park {
+              id
+            }
+            positions
+            hireDate
+            deactivated
           }
           errors {
             path

@@ -7,6 +7,7 @@ class Mutations::SignUp < Mutations::BaseMutation
   argument :password_confirmation, String, required: true
   argument :phone_number, String, "10 digit phone number for user", required: false
   argument :accepts_sms, Boolean, "whether or not the user has agreed to receive SMS for updates and specials", required: false
+  argument :park_id, ID, "The ID of the park that the user belongs to", required: false
 
   field :user, Types::User, null: true
   field :auth, Types::AuthType, null: true
