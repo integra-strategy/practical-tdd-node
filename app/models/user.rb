@@ -55,4 +55,12 @@ class User < ApplicationRecord
   def active?
     !deactivated?
   end
+
+  def cast(includes: [])
+    user_class = Object.const_get(type.capitalize)
+    unless (includes.empty?)
+      user_class.includes(includes)
+    end
+    user_class.find(id)
+  end
 end
