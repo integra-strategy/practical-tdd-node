@@ -9,6 +9,7 @@ RSpec.describe "Updating a user", type: :request do
     park = create(:park)
     positions = ['Cashier']
     hire_date = Time.zone.now
+    deactivated = true
     variables = OpenStruct.new(
       id: user.id,
       first_name: 'John',
@@ -29,7 +30,8 @@ RSpec.describe "Updating a user", type: :request do
       notes: 'Some note',
       park_id: park.id,
       positions: positions,
-      hire_date: hire_date.iso8601
+      hire_date: hire_date.iso8601,
+      deactivated: deactivated
     )
 
     result = update_user(variables: variables, user: user).user
@@ -53,6 +55,7 @@ RSpec.describe "Updating a user", type: :request do
     expect(result.park.id).to eq(park.id.to_s)
     expect(result.positions).to eq(positions)
     expect(result.hire_date).to include(hire_date.strftime('%Y-%m-%d %H:%M:%S'))
+    expect(result.deactivated).to eq(true)
   end
 
   it "returns errors" do
@@ -97,6 +100,7 @@ RSpec.describe "Updating a user", type: :request do
             }
             positions
             hireDate
+            deactivated
           }
           errors {
             path

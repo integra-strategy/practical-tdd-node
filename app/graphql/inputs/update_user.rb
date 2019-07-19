@@ -22,4 +22,5 @@ class Inputs::UpdateUser < Inputs::BaseInputObject
   argument :park_id, ID, "The ID of the park that the user belongs to", required: false
   argument :positions, [String], "The positions that the employee or manager works at the park", required: false
   argument :hire_date, String, "The date that the user was hired", required: false
+  argument :deactivated, Boolean, "Whether or not the user has been deactivated", required: false
 end
