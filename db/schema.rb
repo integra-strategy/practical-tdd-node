@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_19_221958) do
+ActiveRecord::Schema.define(version: 2019_07_19_224024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2019_07_19_221958) do
     t.bigint "park_id"
     t.string "positions", default: [], array: true
     t.datetime "hire_date"
+    t.boolean "deactivated"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
