@@ -1,10 +1,10 @@
 const db = require("./src/db")
-const User = require("./src/models/user")
+const Order = require("./src/models/order")
+
+afterEach(async () => {
+  await Order.remove({})
+})
 
 afterAll(async () => {
-  try {
-    await User.remove({})
-  } finally {
-    await db.close()
-  }
+  await db.close()
 })
