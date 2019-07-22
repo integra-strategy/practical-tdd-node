@@ -13,6 +13,14 @@ module Types
     field :packages, [Types::Package], null: true do
       description "Fetch available subscription packages"
     end
+    field :fetch_users, [Types::User], null: true do
+      description "Fetch users for a park"
+      argument :park_id, ID, "The ID of the park that you want to fetch users for. Leave empty to fetch users for all parks.", required: false
+      argument :type, Types::UserEnum, "The type of user that you want to fetch. Leave empty to fetch all user types.", required: false
+    end
+    field :fetch_parks, [Types::Park], null: true do
+      description "Fetch all parks"
+    end
 
     # Seems like this regression worked it's way back into graphql-ruby: https://github.com/rmosolgo/graphql-ruby/issues/788#issuecomment-308996229
     field :testInt, GraphQL::Types::Int, null: true
@@ -23,6 +31,23 @@ module Types
 
     def user_detail(id:)
       user = ::User.find(id).cast(includes: [:dogs])
+    end
+
+    def fetch_users(args = {})
+      query = {}
+      park_id = args[:park_id]
+      type = args[:type]
+      if park_id
+        query[:park_id] = park_id
+      end
+      if type
+        query[:type] = type
+      end
+      ::User.where(query)
+    end
+
+    def fetch_parks
+      ::Park.all
     end
 
     def packages

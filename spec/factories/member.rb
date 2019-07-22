@@ -4,7 +4,7 @@ FactoryBot.define do
       "member#{n}@example.com"
     end
     confirmed_at { DateTime.now }
-    park { Park.first || create(:park) }
+    park { create(:park) }
 
     transient do
       unconfirmed { false }
