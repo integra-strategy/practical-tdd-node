@@ -18,6 +18,9 @@ module Types
       argument :park_id, ID, "The ID of the park that you want to fetch users for.", required: false
       argument :type, Types::UserEnum, "The type of user that you want to fetch.", required: false
     end
+    field :fetch_parks, [Types::Park], null: true do
+      description "Fetch all parks"
+    end
 
     # Seems like this regression worked it's way back into graphql-ruby: https://github.com/rmosolgo/graphql-ruby/issues/788#issuecomment-308996229
     field :testInt, GraphQL::Types::Int, null: true
@@ -41,6 +44,10 @@ module Types
         query[:type] = type
       end
       ::User.where(query)
+    end
+
+    def fetch_parks
+      ::Park.all
     end
 
     def packages
