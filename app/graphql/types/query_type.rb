@@ -16,6 +16,7 @@ module Types
     field :fetch_users, [Types::User], null: true do
       description "Fetch users for a park"
       argument :park_id, ID, "The ID of the park that you want to fetch users for.", required: true
+      argument :type, Types::UserEnum, "The type of user that you want to fetch.", required: false
     end
 
     # Seems like this regression worked it's way back into graphql-ruby: https://github.com/rmosolgo/graphql-ruby/issues/788#issuecomment-308996229
@@ -29,8 +30,13 @@ module Types
       user = ::User.find(id).cast(includes: [:dogs])
     end
 
-    def fetch_users(park_id:)
-      ::User.where(park: park_id)
+    def fetch_users(args)
+      query = { park_id: args.fetch(:park_id) }
+      type = args[:type]
+      if type
+        query[:type] = type
+      end
+      ::User.where(query)
     end
 
     def packages
