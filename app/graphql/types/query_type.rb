@@ -15,8 +15,8 @@ module Types
     end
     field :fetch_users, [Types::User], null: true do
       description "Fetch users for a park"
-      argument :park_id, ID, "The ID of the park that you want to fetch users for.", required: false
-      argument :type, Types::UserEnum, "The type of user that you want to fetch.", required: false
+      argument :park_id, ID, "The ID of the park that you want to fetch users for. Leave empty to fetch users for all parks.", required: false
+      argument :type, Types::UserEnum, "The type of user that you want to fetch. Leave empty to fetch all user types.", required: false
     end
     field :fetch_parks, [Types::Park], null: true do
       description "Fetch all parks"
