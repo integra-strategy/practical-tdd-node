@@ -33,9 +33,20 @@ RSpec.describe "Fetching users", type: :request do
     expect(results.second.id).to eq(park_a_member.id.to_s)
   end
 
-  def fetch_users(variables)
+  it "returns all users for all parks when no park is specified" do
+    park_a = create(:park)
+    park_b = create(:park)
+    create(:member, park: park_a)
+    create(:employee, park: park_b)
+
+    results = fetch_users
+
+    expect(results.length).to eq(3) # Includes the user making the request
+  end
+
+  def fetch_users(variables = {})
     query = <<~GQL
-      query FetchUsers($parkId: ID!, $type: UserEnum) {
+      query FetchUsers($parkId: ID, $type: UserEnum) {
         fetchUsers(parkId: $parkId, type: $type) {
           id
           type
