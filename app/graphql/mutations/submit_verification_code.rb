@@ -7,7 +7,7 @@ class Mutations::SubmitVerificationCode < Mutations::BaseMutation
     member = Member.find_by(phone_number: input.phone_number)
     errors = get_errors(member, input)
     unless errors.length > 0
-      member.update(verification_code: nil)
+      member.update(verification_code: nil, check_in_time: Time.zone.now)
     end
     {errors: errors}
   end

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  TYPES = {}
   has_one_attached :profile_picture
   has_many :dogs
   belongs_to :park
@@ -62,5 +63,15 @@ class User < ApplicationRecord
       user_class.includes(includes)
     end
     user_class.find(id)
+  end
+
+  def activity_time(type)
+    raise ArgumentError.new("Type not allowed: #{type}") unless type_allowed?(type)
+    public_send("#{type}_time")
+  end
+
+  private
+  def type_allowed?(type)
+    ['check_in'].include?(type)
   end
 end

@@ -21,6 +21,11 @@ module Types
     field :fetch_parks, [Types::Park], null: true do
       description "Fetch all parks"
     end
+    field :fetch_activity_list, Types::FetchActivityList, null: true do
+      description "Returns information about different activities. Activities include check-ins, sign-ins, and sign-ups."
+      argument :park_id, ID, "The ID of the park that you want to fetch check-ins for. Leave empty to fetch check-ins for all parks.", required: false
+      argument :type, Types::Activity, "The type of activity that you want to fetch information on", required: true
+    end
 
     # Seems like this regression worked it's way back into graphql-ruby: https://github.com/rmosolgo/graphql-ruby/issues/788#issuecomment-308996229
     field :testInt, GraphQL::Types::Int, null: true
@@ -48,6 +53,18 @@ module Types
 
     def fetch_parks
       ::Park.all
+    end
+
+    def fetch_activity_list(args = {})
+      park_id = args[:park_id]
+      users = ::User.where(park_id: park_id)
+      type = args[:type]
+      items = []
+      items = users.map do |user|
+        binding.pry
+        { user: user, activity_time: user.activity_time(type) }
+      end
+      { items: items, count: users.count }
     end
 
     def packages
